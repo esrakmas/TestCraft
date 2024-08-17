@@ -29,6 +29,7 @@ class  HomePage : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var bottomdialoghelper: BottomDialogHelper
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomePageBinding.inflate(layoutInflater)
@@ -43,6 +44,8 @@ class  HomePage : AppCompatActivity() {
         setSupportActionBar(binding.toolbar) //ekledin
 
         bottomdialoghelper = BottomDialogHelper(this)
+
+
 
 
 

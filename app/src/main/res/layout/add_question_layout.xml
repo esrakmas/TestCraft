@@ -34,8 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_clear_24"
-            android:layout_marginLeft="230dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="100dp"
             android:id="@+id/cancelButton"/>
 
     </LinearLayout>
@@ -149,7 +148,7 @@
             android:padding="13dp"/>
 
         <Button
-            android:id="@+id/save_button"
+            android:id="@+id/save_question_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ekle"
