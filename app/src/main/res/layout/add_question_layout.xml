@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:padding="16dp">
 
     <ImageView
         android:layout_width="70dp"
@@ -86,6 +87,47 @@
 
     </LinearLayout>
 
+    <!-- dialog_photo.xml -->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <ImageView
+            android:id="@+id/photo_preview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/placeholder" />
 
+        <RatingBar
+            android:id="@+id/photo_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:rating="0"
+            android:stepSize="1" />
+
+        <Spinner
+            android:id="@+id/title_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/photo_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Eklemek istedikleriniz:" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ekle"
+            android:layout_gravity="end"/>
     </LinearLayout>
+
+
+
+
+</LinearLayout>

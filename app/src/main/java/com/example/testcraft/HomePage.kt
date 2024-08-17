@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -128,6 +129,12 @@ class  HomePage : AppCompatActivity() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.add_question_layout)
+
+        // Dialog'un genişliğini ekranın %90'ı olacak şekilde ayarlıyoruz
+        dialog.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.9).toInt(),
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
 
         val fromgallery = dialog.findViewById<LinearLayout>(R.id.fromgallery)
         val takephoto = dialog.findViewById<LinearLayout>(R.id.takephoto)
