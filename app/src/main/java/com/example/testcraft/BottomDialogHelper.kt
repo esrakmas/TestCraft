@@ -19,7 +19,7 @@ class BottomDialogHelper(private val activity: Activity) {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.add_question_layout)
 
-        // Set the dialog's width to 90% of the screen width
+        // Dialog'un genişliğini ekranın %90'ı olacak şekilde ayarlıyoruz
         dialog.window?.setLayout(
             (activity.resources.displayMetrics.widthPixels * 0.9).toInt(),
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -29,10 +29,16 @@ class BottomDialogHelper(private val activity: Activity) {
         val takephoto = dialog.findViewById<LinearLayout>(R.id.takephoto)
         val cancelButton = dialog.findViewById<ImageView>(R.id.cancelButton)
         val examSpinner = dialog.findViewById<Spinner>(R.id.exam_spinner)
+        val lessonSpinner = dialog.findViewById<Spinner>(R.id.lesson_spinner)
 
-        fetchTitles { titlesList ->
+        fetchExam { titlesList ->
             updateSpinner(examSpinner, titlesList)
         }
+
+        fetchLesson { titlesList ->
+            updateSpinner(lessonSpinner, titlesList)
+        }
+
 
         fromgallery.setOnClickListener {
             dialog.dismiss()
@@ -51,8 +57,31 @@ class BottomDialogHelper(private val activity: Activity) {
         dialog.show()
     }
 
-    private fun fetchTitles(callback: (List<String>) -> Unit) {
+    private fun fetchExam(callback: (List<String>) -> Unit) {
         db.collection("exams")
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val titlesList = mutableListOf<String>()
+                    val documents = task.result
+                    if (documents != null && !documents.isEmpty) {
+                        for (document in documents) {
+                            // Iterate over all values in the document
+                            val data = document.data
+                            for (value in data.values) {
+                                titlesList.add(value.toString()) // Add only the value to the list
+                            }
+                        }
+                        callback(titlesList)
+                    }
+                } else {
+                    Toast.makeText(activity, "Error getting documents: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    private fun fetchLesson(callback: (List<String>) -> Unit) {
+        db.collection("lessons")
             .get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {

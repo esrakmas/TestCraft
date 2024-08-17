@@ -99,6 +99,12 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:src="@drawable/placeholder" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sorunun zorluk derecesini seçiniz:"
+            android:padding="5dp"/>
 
         <RatingBar
             android:id="@+id/photo_rating"
@@ -108,11 +114,31 @@
             android:rating="0"
             android:stepSize="1" />
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sınav türü seçiniz:"
+            android:padding="5dp"/>
+
         <Spinner
             android:id="@+id/exam_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="10dp"
+            />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ders türü seçiniz:"
+            android:padding="5dp"/>
+
+        <Spinner
+            android:id="@+id/lesson_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
             />
 
         <EditText
@@ -120,7 +146,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Eklemek istedikleriniz:"
-            android:padding="16dp"/>
+            android:padding="13dp"/>
 
         <Button
             android:id="@+id/save_button"
