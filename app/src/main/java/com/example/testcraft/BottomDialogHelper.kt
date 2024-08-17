@@ -1,7 +1,6 @@
 package com.example.testcraft
 
 import android.app.Activity
-import com.google.firebase.firestore.FirebaseFirestore
 import android.app.Dialog
 import android.view.ViewGroup
 import android.view.Window
@@ -10,8 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.Toast
-
-
+import com.google.firebase.firestore.FirebaseFirestore
 
 class BottomDialogHelper(private val activity: Activity) {
     private val db = FirebaseFirestore.getInstance()
@@ -21,7 +19,7 @@ class BottomDialogHelper(private val activity: Activity) {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.add_question_layout)
 
-        // Dialog'un genişliğini ekranın %90'ı olacak şekilde ayarlıyoruz
+        // Set the dialog's width to 90% of the screen width
         dialog.window?.setLayout(
             (activity.resources.displayMetrics.widthPixels * 0.9).toInt(),
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -62,9 +60,10 @@ class BottomDialogHelper(private val activity: Activity) {
                     val documents = task.result
                     if (documents != null && !documents.isEmpty) {
                         for (document in documents) {
-                            val title = document.getString("name")
-                            if (title != null) {
-                                titlesList.add(title)
+                            // Iterate over all values in the document
+                            val data = document.data
+                            for (value in data.values) {
+                                titlesList.add(value.toString()) // Add only the value to the list
                             }
                         }
                         callback(titlesList)
@@ -75,11 +74,10 @@ class BottomDialogHelper(private val activity: Activity) {
             }
     }
 
+
     private fun updateSpinner(spinner: Spinner, titlesList: List<String>) {
         val adapter = ArrayAdapter(activity, android.R.layout.simple_spinner_item, titlesList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
     }
-
-
 }
