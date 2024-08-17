@@ -21,11 +21,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.replace
 import com.example.testcraft.databinding.ActivityHomePageBinding
+import com.google.firebase.firestore.FirebaseFirestore
 
 class  HomePage : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomePageBinding
     private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var bottomdialoghelper: BottomDialogHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,8 @@ class  HomePage : AppCompatActivity() {
         setupDrawer()
 
         setSupportActionBar(binding.toolbar) //ekledin
+
+        bottomdialoghelper = BottomDialogHelper(this)
 
 
 
@@ -70,9 +74,7 @@ class  HomePage : AppCompatActivity() {
             }
 
 
-            //BOTTOM NAVİGATİON VİEW
-
-                bottomNavigationView.setOnItemSelectedListener {menuItem ->
+            bottomNavigationView.setOnItemSelectedListener {menuItem ->
                     Log.d("bottomChek", "bottom: ${binding.bottomNavigationView}")
 
                     when (menuItem.itemId) {
@@ -83,14 +85,14 @@ class  HomePage : AppCompatActivity() {
                 }
                 true
             }
+
+
             binding.fab.setOnClickListener {
-                showBottomDialog()
+                bottomdialoghelper.showBottomDialog()
             }
 
 
         }
-
-
 
     }
 
@@ -112,9 +114,13 @@ class  HomePage : AppCompatActivity() {
         fragmentTransaction.replace(R.id.fragment_layout,fragment)
         fragmentTransaction.commit()
     }
+
+
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
+
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Log.d("HomePage", "onOptionsItemSelected called: ${item.itemId}")
 
@@ -124,38 +130,6 @@ class  HomePage : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-    private fun showBottomDialog() {
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.add_question_layout)
-
-        // Dialog'un genişliğini ekranın %90'ı olacak şekilde ayarlıyoruz
-        dialog.window?.setLayout(
-            (resources.displayMetrics.widthPixels * 0.9).toInt(),
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-
-        val fromgallery = dialog.findViewById<LinearLayout>(R.id.fromgallery)
-        val takephoto = dialog.findViewById<LinearLayout>(R.id.takephoto)
-        val cancelButton = dialog.findViewById<ImageView>(R.id.cancelButton)
-
-        fromgallery.setOnClickListener {
-            dialog.dismiss()
-            Toast.makeText(this@HomePage, "galeriden yükle", Toast.LENGTH_SHORT).show()
-        }
-
-        // Add listeners for shortsLayout, liveLayout, and cancelButton if needed
-        takephoto.setOnClickListener {
-            dialog.dismiss()
-            Toast.makeText(this@HomePage, "foto çek", Toast.LENGTH_SHORT).show()
-        }
-
-        cancelButton.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.show()
     }
 
 
