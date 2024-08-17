@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "208548853963",
+    "project_id": "testcraft-88c0e",
+    "storage_bucket": "testcraft-88c0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208548853963:android:752a91cdb1c8ebdcdc034e",
+        "android_client_info": {
+          "package_name": "com.example.testcraft"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQhrCKn-yYgYFpy1A4sQmNBS2BT8FcjVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
