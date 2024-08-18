@@ -22,7 +22,7 @@ class BottomDialogHelper(private val activity: Activity) {
 
     private val photoHandler = PhotoHandler(activity)
     private val db = FirebaseFirestore.getInstance()
-    private val questionFireBaseHelper = QuestionFireBaseHelper()
+    private val questionFireBaseHelper = QuestionFireBaseHelper(activity)
 
 
     fun showBottomDialog() {
@@ -45,11 +45,8 @@ class BottomDialogHelper(private val activity: Activity) {
         val cancelButton = binding.cancelButton
         val examSpinner = binding.examSpinner
         val lessonSpinner = binding.lessonSpinner
-        val photoPreview = binding.photoPreview
         val saveQuestionButton = binding.saveQuestionButton
-        val answerChoices = binding.answerChoices
-        val photoRating =binding.photoRating
-        val photoNotes=binding.photoNotes
+
 
 
 
@@ -83,20 +80,22 @@ class BottomDialogHelper(private val activity: Activity) {
         val photoRatingBar = dialog.findViewById<RatingBar>(R.id.photo_rating)
         val examTitleSpinner = dialog.findViewById<Spinner>(R.id.exam_spinner)
         val lessonTitleSpinner = dialog.findViewById<Spinner>(R.id.lesson_spinner)
-        val answerChoicesGroup = dialog.findViewById<RadioGroup>(R.id.answer_choices)
         val photoNotesEditText = dialog.findViewById<EditText>(R.id.photo_notes)
 
+
+        val answerChoicesGroup = dialog.findViewById<RadioGroup>(R.id.answer_choices)
 
 
         saveQuestionButton.setOnClickListener{
 
-            saveQuestion(
+            questionFireBaseHelper.saveQuestion(
                 photoUrl = photoUrlImageView.tag?.toString() ?: "default_url",
                 photoRating = photoRatingBar.rating.toString(),
                 examTitle = examTitleSpinner.selectedItem.toString(),
                 lessonTitle = lessonTitleSpinner.selectedItem.toString(),
-                answerChoices = getSelectedAnswerChoice(answerChoicesGroup),
-                photoNotes = photoNotesEditText.text.toString()
+                photoNotes = photoNotesEditText.text.toString(),
+                answerChoices = getSelectedAnswerChoice(answerChoicesGroup)
+
             )
 
 
@@ -106,6 +105,17 @@ class BottomDialogHelper(private val activity: Activity) {
         dialog.show()
 
     }
+
+    private fun getSelectedAnswerChoice(answerChoices: RadioGroup): String {
+        val selectedId = answerChoices.checkedRadioButtonId
+        return if (selectedId != -1) {
+            val selectedRadioButton = answerChoices.findViewById<RadioButton>(selectedId)
+            selectedRadioButton.text.toString()
+        } else {
+            "No answer selected"
+        }
+    }
+
 
 
     private fun fetchExam(callback: (List<String>) -> Unit) {
@@ -161,55 +171,6 @@ class BottomDialogHelper(private val activity: Activity) {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
     }
-
-    private fun getSelectedAnswerChoice(photoPreview: RadioGroup): String {
-        val selectedId = photoPreview.checkedRadioButtonId
-        return if (selectedId != -1) {
-            val selectedRadioButton = photoPreview.findViewById<RadioButton>(selectedId)
-            selectedRadioButton.text.toString()
-        } else {
-            "No answer selected"
-        }
-    }
-
-
-    private fun saveQuestion(
-        photoUrl: String,
-        photoRating: String,
-        examTitle: String,
-        lessonTitle: String,
-        answerChoices: String,
-        photoNotes: String
-    ) {
-        val questionData = hashMapOf(
-            "photo_url" to photoUrl,
-            "photo_rating" to photoRating,
-            "exam_title" to examTitle,
-            "lesson_title" to lessonTitle,
-            "answer_choices" to answerChoices,
-            "photo_notes" to photoNotes
-        )
-
-        db.collection("questions")
-            .add(questionData)
-            .addOnSuccessListener {
-                showToast("Question saved successfully!")
-            }
-            .addOnFailureListener { e ->
-                showToast("Error saving question: ${e.message}")
-            }
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-    }
-
-
-
-
-
-
-
 
 
 

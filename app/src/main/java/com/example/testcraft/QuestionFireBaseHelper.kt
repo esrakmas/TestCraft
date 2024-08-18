@@ -1,24 +1,25 @@
 package com.example.testcraft
 
+import android.app.Activity
+import android.content.Context
+import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 
 
 
-class QuestionFireBaseHelper {
+class QuestionFireBaseHelper(private val activity: Activity) {
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     fun saveQuestion(
-        photoPreview: String,
+        photoUrl: String,
         photoRating: String,
         examTitle: String,
         lessonTitle: String,
         answerChoices: String,
-        photoNotes: String,
-        callback: (Boolean) -> Unit
-
+        photoNotes: String
     ) {
-        val questionData = mapOf(
-            "photo_url" to photoPreview,
+        val questionData = hashMapOf(
+            "photo_url" to photoUrl,
             "photo_rating" to photoRating,
             "exam_title" to examTitle,
             "lesson_title" to lessonTitle,
@@ -28,10 +29,20 @@ class QuestionFireBaseHelper {
 
         firestore.collection("questions")
             .add(questionData)
-            .addOnSuccessListener { callback(true) }
-            .addOnFailureListener { callback(false) }
+            .addOnSuccessListener {
+                showToast("Question saved successfully!")
             }
+            .addOnFailureListener { e ->
+                showToast("Error saving question: ${e.message}")
+            }
+
     }
+
+
+    private fun showToast(message: String) {
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+    }
+}
 
 
 

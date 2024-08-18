@@ -151,17 +151,14 @@
             android:id="@+id/answer_choices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/choice_a"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="false"
                     android:text="A"
                     android:textColor="@color/lavender" />
 
@@ -192,7 +189,6 @@
                     android:layout_height="wrap_content"
                     android:text="E"
                     android:textColor="@color/lavender" />
-            </LinearLayout>
 
         </RadioGroup>
 
