@@ -30,10 +30,10 @@ class QuestionFireBaseHelper(private val activity: Activity) {
         firestore.collection("questions")
             .add(questionData)
             .addOnSuccessListener {
-                showToast("Question saved successfully!")
+                showToast("Soru başarıyla kaydedildi!")
             }
             .addOnFailureListener { e ->
-                showToast("Error saving question: ${e.message}")
+                showToast("Soru kaydedilirken hata oluştu: ${e.message}")
             }
 
     }

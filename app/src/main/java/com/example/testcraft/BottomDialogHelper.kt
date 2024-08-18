@@ -53,7 +53,6 @@ class BottomDialogHelper(private val activity: Activity) {
 
         // Exam ve Lesson verilerini spinner'lara yükleme
 
-        // Load data into spinners
         fetchExam { titlesList ->
             updateSpinner(examSpinner, titlesList)
         }
@@ -87,19 +86,49 @@ class BottomDialogHelper(private val activity: Activity) {
 
 
         saveQuestionButton.setOnClickListener{
-
-            questionFireBaseHelper.saveQuestion(
-                photoUrl = photoUrlImageView.tag?.toString() ?: "default_url",
-                photoRating = photoRatingBar.rating.toString(),
-                examTitle = examTitleSpinner.selectedItem.toString(),
-                lessonTitle = lessonTitleSpinner.selectedItem.toString(),
-                photoNotes = photoNotesEditText.text.toString(),
-                answerChoices = getSelectedAnswerChoice(answerChoicesGroup)
-
-            )
+            // Form doğrulaması yap
+            val photoUrl = photoUrlImageView.tag?.toString() ?: "default_url"
+            val photoRating = photoRatingBar.rating.toString()
+            val examTitle = examTitleSpinner.selectedItem.toString()
+            val lessonTitle = lessonTitleSpinner.selectedItem.toString()
+            val photoNotes = photoNotesEditText.text.toString()
+            val answerChoices = getSelectedAnswerChoice(answerChoicesGroup)
 
 
+            // Hataları toplamak için bir liste oluştur
+            val errorMessages = mutableListOf<String>()
 
+
+            // Gerekli alanların kontrolünü yap
+            if (examTitle.isEmpty()) {
+                errorMessages.add("Lütfen sınav türünü seçiniz.")
+            }
+            if (photoRating =="0.0") {
+                errorMessages.add("Lütfen sorunun seviyesini seçiniz.")
+            }
+            if (lessonTitle.isEmpty()) {
+                errorMessages.add("Lütfen ders türünü seçiniz.")
+            }
+            if (answerChoices == "No answer selected") {
+                errorMessages.add("Lütfen sorunun cevabını seçiniz.")
+            }
+
+            if (errorMessages.isNotEmpty()) {
+                // Uyarı mesajını oluştur ve göster
+                val errorMessage = errorMessages.joinToString("\n")
+                Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show()
+            }else{
+
+                questionFireBaseHelper.saveQuestion(
+                    photoUrl = photoUrlImageView.tag?.toString() ?: "default_url",
+                    photoRating = photoRatingBar.rating.toString(),
+                    examTitle = examTitleSpinner.selectedItem.toString(),
+                    lessonTitle = lessonTitleSpinner.selectedItem.toString(),
+                    photoNotes = photoNotesEditText.text.toString(),
+                    answerChoices = getSelectedAnswerChoice(answerChoicesGroup)
+                )
+
+                 }
         }
 
         dialog.show()
@@ -136,7 +165,7 @@ class BottomDialogHelper(private val activity: Activity) {
                         callback(titlesList)
                     }
                 } else {
-                    Toast.makeText(activity, "Error getting documents: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Belgeler alınırken hata oluştu: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
     }
@@ -160,7 +189,7 @@ class BottomDialogHelper(private val activity: Activity) {
                         callback(titlesList)
                     }
                 } else {
-                    Toast.makeText(activity, "Error getting documents: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Belgeler alınırken hata oluştu: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
     }
