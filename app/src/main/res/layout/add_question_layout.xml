@@ -96,14 +96,14 @@
         <ImageView
             android:id="@+id/photo_preview"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="144dp"
             android:src="@drawable/placeholder" />
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sorunun zorluk derecesini seçiniz:"
-            android:padding="5dp"/>
+            android:padding="3dp"/>
 
         <RatingBar
             android:id="@+id/photo_rating"
@@ -118,40 +118,96 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sınav türü seçiniz:"
-            android:padding="5dp"/>
+            android:padding="3dp"/>
 
         <Spinner
             android:id="@+id/exam_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="8dp"
             />
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ders türü seçiniz:"
-            android:padding="5dp"/>
+            android:padding="3dp"/>
 
         <Spinner
             android:id="@+id/lesson_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="8dp"
             />
+
+        <TextView
+            android:id="@+id/answer_choice_prompt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Doğru cevabı seçiniz:"
+            android:padding="3dp"/>
+
+        <RadioGroup
+            android:id="@+id/answer_choices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/choice_a"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A"
+                    android:textColor="@color/lavender" />
+
+                <RadioButton
+                    android:id="@+id/choice_b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B"
+                    android:textColor="@color/lavender" />
+
+                <RadioButton
+                    android:id="@+id/choice_c"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C"
+                    android:textColor="@color/lavender" />
+
+                <RadioButton
+                    android:id="@+id/choice_d"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="D"
+                    android:textColor="@color/lavender" />
+
+                <RadioButton
+                    android:id="@+id/choice_e"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="E"
+                    android:textColor="@color/lavender" />
+            </LinearLayout>
+
+        </RadioGroup>
 
         <EditText
             android:id="@+id/photo_notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Eklemek istedikleriniz:"
-            android:padding="13dp"/>
+            android:padding="10dp" />
 
         <Button
             android:id="@+id/save_question_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ekle"
+            android:text="Soruyu ekle"
             android:layout_gravity="end"/>
     </LinearLayout>
 

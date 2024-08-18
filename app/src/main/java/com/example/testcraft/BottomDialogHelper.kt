@@ -1,15 +1,18 @@
 package com.example.testcraft
 
-import PhotoHandler
-import PhotoManager
+
 import android.app.Activity
 import android.app.Dialog
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.RatingBar
 import android.widget.Spinner
 import android.widget.Toast
 import com.example.testcraft.databinding.AddQuestionLayoutBinding
@@ -18,14 +21,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 class BottomDialogHelper(private val activity: Activity) {
 
     private val photoHandler = PhotoHandler(activity)
-    private val photoManager = PhotoManager(activity)
-
     private val db = FirebaseFirestore.getInstance()
+    private val questionFireBaseHelper = QuestionFireBaseHelper()
+
 
     fun showBottomDialog() {
         val dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.add_question_layout)
 
 
         // Binding kullanarak layout erişimi
@@ -38,19 +40,23 @@ class BottomDialogHelper(private val activity: Activity) {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
-        val fromgallery = dialog.findViewById<LinearLayout>(R.id.fromgallery)
-        val takephoto = dialog.findViewById<LinearLayout>(R.id.takephoto)
-        val cancelButton = dialog.findViewById<ImageView>(R.id.cancelButton)
-        val examSpinner = dialog.findViewById<Spinner>(R.id.exam_spinner)
-        val lessonSpinner = dialog.findViewById<Spinner>(R.id.lesson_spinner)
-        val saveButton = dialog.findViewById<Button>(R.id.save_question_button)
+        val fromgallery = binding.fromgallery
+        val takephoto = binding.takephoto
+        val cancelButton = binding.cancelButton
+        val examSpinner = binding.examSpinner
+        val lessonSpinner = binding.lessonSpinner
         val photoPreview = binding.photoPreview
+        val saveQuestionButton = binding.saveQuestionButton
+        val answerChoices = binding.answerChoices
+        val photoRating =binding.photoRating
+        val photoNotes=binding.photoNotes
 
 
 
 
         // Exam ve Lesson verilerini spinner'lara yükleme
 
+        // Load data into spinners
         fetchExam { titlesList ->
             updateSpinner(examSpinner, titlesList)
         }
@@ -59,16 +65,13 @@ class BottomDialogHelper(private val activity: Activity) {
             updateSpinner(lessonSpinner, titlesList)
         }
 
-        // Tıklama olayları
+        // tıklama olayları
         fromgallery.setOnClickListener {
-            dialog.dismiss()
             photoHandler.openGallery()
             Toast.makeText(activity, "Galeriden yükle", Toast.LENGTH_SHORT).show()
         }
 
         takephoto.setOnClickListener {
-            dialog.dismiss()
-            photoHandler.openCamera()
             Toast.makeText(activity, "Foto çek", Toast.LENGTH_SHORT).show()
         }
 
@@ -76,13 +79,34 @@ class BottomDialogHelper(private val activity: Activity) {
             dialog.dismiss()
         }
 
+        val photoUrlImageView = dialog.findViewById<ImageView>(R.id.photo_preview)
+        val photoRatingBar = dialog.findViewById<RatingBar>(R.id.photo_rating)
+        val examTitleSpinner = dialog.findViewById<Spinner>(R.id.exam_spinner)
+        val lessonTitleSpinner = dialog.findViewById<Spinner>(R.id.lesson_spinner)
+        val answerChoicesGroup = dialog.findViewById<RadioGroup>(R.id.answer_choices)
+        val photoNotesEditText = dialog.findViewById<EditText>(R.id.photo_notes)
 
 
 
+        saveQuestionButton.setOnClickListener{
 
+            saveQuestion(
+                photoUrl = photoUrlImageView.tag?.toString() ?: "default_url",
+                photoRating = photoRatingBar.rating.toString(),
+                examTitle = examTitleSpinner.selectedItem.toString(),
+                lessonTitle = lessonTitleSpinner.selectedItem.toString(),
+                answerChoices = getSelectedAnswerChoice(answerChoicesGroup),
+                photoNotes = photoNotesEditText.text.toString()
+            )
+
+
+
+        }
 
         dialog.show()
+
     }
+
 
     private fun fetchExam(callback: (List<String>) -> Unit) {
         db.collection("exams")
@@ -137,6 +161,54 @@ class BottomDialogHelper(private val activity: Activity) {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
     }
+
+    private fun getSelectedAnswerChoice(photoPreview: RadioGroup): String {
+        val selectedId = photoPreview.checkedRadioButtonId
+        return if (selectedId != -1) {
+            val selectedRadioButton = photoPreview.findViewById<RadioButton>(selectedId)
+            selectedRadioButton.text.toString()
+        } else {
+            "No answer selected"
+        }
+    }
+
+
+    private fun saveQuestion(
+        photoUrl: String,
+        photoRating: String,
+        examTitle: String,
+        lessonTitle: String,
+        answerChoices: String,
+        photoNotes: String
+    ) {
+        val questionData = hashMapOf(
+            "photo_url" to photoUrl,
+            "photo_rating" to photoRating,
+            "exam_title" to examTitle,
+            "lesson_title" to lessonTitle,
+            "answer_choices" to answerChoices,
+            "photo_notes" to photoNotes
+        )
+
+        db.collection("questions")
+            .add(questionData)
+            .addOnSuccessListener {
+                showToast("Question saved successfully!")
+            }
+            .addOnFailureListener { e ->
+                showToast("Error saving question: ${e.message}")
+            }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+    }
+
+
+
+
+
+
 
 
 

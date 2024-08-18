@@ -1,40 +1,29 @@
+package com.example.testcraft
+
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.provider.MediaStore
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.ImageView
+
 
 class PhotoHandler(private val activity: Activity) {
-    private val photoUri: Uri? = null
 
+    private lateinit var photoPreview: ImageView
+
+    // ImageView'yi fotoğraf önizlemesi için ayarlayın
+    fun setPhotoPreview(photoPreview: ImageView) {
+        this.photoPreview = photoPreview
+    }
+
+    // Galeriyi açarak fotoğraf seçme işlemini başlatın
     fun openGallery() {
-        val galleryIntent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        activity.startActivityForResult(galleryIntent, REQUEST_IMAGE_PICK)
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        activity.startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY)
     }
 
-    fun openCamera() {
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        activity.startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE)
-    }
-
-    fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?, onPhotoSelected: (Uri?) -> Unit) {
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                REQUEST_IMAGE_PICK -> {
-                    val selectedImage = data?.data
-                    onPhotoSelected(selectedImage)
-                }
-                REQUEST_IMAGE_CAPTURE -> {
-                    val photoUri = data?.data
-                    onPhotoSelected(photoUri)
-                }
-            }
-        }
-    }
 
     companion object {
-        const val REQUEST_IMAGE_PICK = 1
-        const val REQUEST_IMAGE_CAPTURE = 2
+        private const val REQUEST_CODE_GALLERY = 1
+        private const val REQUEST_CODE_CAMERA = 2
     }
 }
