@@ -18,6 +18,8 @@ import android.widget.Toast
 import com.example.testcraft.databinding.AddQuestionLayoutBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
+//
+
 class BottomDialogHelper(private val activity: Activity) {
 
     private val photoHandler = PhotoHandler(activity)
@@ -146,6 +148,7 @@ class BottomDialogHelper(private val activity: Activity) {
     }
 
 
+    //spinner yükleme fonksiyonları
 
     private fun fetchExam(callback: (List<String>) -> Unit) {
         db.collection("exams")

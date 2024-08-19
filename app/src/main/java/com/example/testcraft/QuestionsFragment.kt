@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class QuestionsFragment : Fragment() {
 
@@ -22,6 +24,9 @@ class QuestionsFragment : Fragment() {
         }
     }
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: LessonAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,7 +37,13 @@ class QuestionsFragment : Fragment() {
         val examTitle = arguments?.getString(ARG_EXAM_TITLE)
         val questions = arguments?.getSerializable(ARG_QUESTIONS) as? List<Map<String, Any>>
 
-        // Burada questions RecyclerView'e bağlanabilir.
+        // RecyclerView'i bul ve ayarla
+        recyclerView = view.findViewById(R.id.recyclerViewLessons)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        // Adapter'i oluştur ve RecyclerView'e bağla
+        adapter = LessonAdapter(questions ?: emptyList())
+        recyclerView.adapter = adapter
 
         return view
     }

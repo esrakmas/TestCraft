@@ -57,8 +57,12 @@ class  HomePage : AppCompatActivity() {
                 Log.d("navigationCheck", "navView: ${binding.navigationView}")
 
                 when (menuItem.itemId) {
-                    R.id.profile -> replaceFragment(ProfileFragment())
-                    R.id.settings -> showToast("Ayarlara gir")
+                    R.id.profile -> {
+                        replaceFragment(ProfileFragment())
+                        showToast("Profile gir")}
+                    R.id.settings -> {
+                        replaceFragment(SettingsFragment())
+                        showToast("Ayarlara gir")}
                     R.id.logout -> {
                         showToast("Çıkış yapıldı")
 

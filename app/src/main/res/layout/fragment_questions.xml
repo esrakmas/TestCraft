@@ -4,9 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- RecyclerView, soruları listelemek için kullanılacak -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/questionsRecyclerView"
+        android:id="@+id/recyclerViewLessons"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+
 </LinearLayout>

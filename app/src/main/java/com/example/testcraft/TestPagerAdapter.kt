@@ -6,8 +6,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class TestPagerAdapter(
     fragmentActivity: FragmentActivity,
-    private val examTitleList: List<String>,
-    private val questionsMap: Map<String, List<Map<String, Any>>>
+    private var examTitleList: List<String>,
+    private var questionsMap: Map<String, List<Map<String, Any>>>
 ) : FragmentStateAdapter(fragmentActivity) {
 
     override fun getItemCount(): Int {
@@ -17,8 +17,13 @@ class TestPagerAdapter(
     override fun createFragment(position: Int): Fragment {
         val examTitle = examTitleList[position]
         val questions = questionsMap[examTitle]
-
-        // ExamTitle'a göre sorularla dolu bir fragment döndür.
         return QuestionsFragment.newInstance(examTitle, questions)
+    }
+
+    // Bu yöntem adapter'ı güncellemek için kullanılır
+    fun updateData(newExamTitleList: List<String>, newQuestionsMap: Map<String, List<Map<String, Any>>>) {
+        examTitleList = newExamTitleList
+        questionsMap = newQuestionsMap
+        notifyDataSetChanged()
     }
 }
