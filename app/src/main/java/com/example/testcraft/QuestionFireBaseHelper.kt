@@ -39,7 +39,49 @@ class QuestionFireBaseHelper(private val activity: Activity) {
                 showToast("Soru kaydedilirken hata oluştu: ${e.message}")
             }
 
+        groupQuestions(photoUrl, photoRating, examTitle, lessonTitle, answerChoices, photoNotes)
+
     }
+
+    fun groupQuestions(
+        photoUrl: String,
+        photoRating: String,
+        examTitle: String,
+        lessonTitle: String,
+        answerChoices: String,
+        photoNotes: String
+    ) {
+        // Firestore referanslarını oluştur
+        val questionsRef = firestore.collection("Tests")
+            .document(examTitle) // Exam title koleksiyonu
+            .collection(lessonTitle) // Lesson title alt koleksiyonu
+            .document(photoRating) // Photo rating alt koleksiyonu
+            .collection("Questions") // Questions alt koleksiyonu
+
+        // Yeni bir questionID oluştur
+        val newQuestionRef = questionsRef.document() // Firestore otomatik olarak yeni bir ID oluşturur
+
+        // Veriyi oluştur
+        val questionData = hashMapOf(
+            "photo_url" to photoUrl,
+            "photo_rating" to photoRating,
+            "exam_title" to examTitle,
+            "lesson_title" to lessonTitle,
+            "answer_choices" to answerChoices,
+            "photo_notes" to photoNotes
+        )
+
+        // Veriyi Firestore'a ekle
+        newQuestionRef.set(questionData)
+            .addOnSuccessListener {
+                showToast("Soru başarıyla kaydedildi!")
+            }
+            .addOnFailureListener { e ->
+                showToast("Soru kaydedilirken hata oluştu: ${e.message}")
+            }
+    }
+
+
 
 
 
