@@ -25,16 +25,24 @@ class TestPageFragment : Fragment() {
         tabLayout = view.findViewById(R.id.tabLayout)
         viewPager = view.findViewById(R.id.viewPager)
 
-        val firebaseHelper = QuestionFireBaseHelper(requireActivity())
-        firebaseHelper.fetchQuestionsByExamTitle { groupedQuestions ->
-            val examTitleList = groupedQuestions.keys.toList()
+        // activity nesnesinin null olup olmadığını kontrol edin
+        activity?.let { activity ->
+            val firebaseHelper = QuestionFireBaseHelper(activity)
+            firebaseHelper.fetchQuestionsByExamTitle { groupedQuestions ->
+                // Firebase'den gelen veriler ile adapter'ı güncelle
+                val examTitleList = groupedQuestions.keys.toList()
 
-            testPageAdapter = TestPageAdapter(requireActivity(), examTitleList, groupedQuestions)
-            viewPager.adapter = testPageAdapter
+                testPageAdapter = TestPageAdapter(activity, examTitleList, groupedQuestions)
+                viewPager.adapter = testPageAdapter
 
-            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                tab.text = examTitleList[position]
-            }.attach()
+                // TabLayout ile ViewPager2'yi bağlayın
+                TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                    tab.text = examTitleList[position]
+                }.attach()
+            }
+        } ?: run {
+            // activity null ise, gerekli önlemleri burada alın
+            // Örneğin, bir hata mesajı gösterebilirsiniz
         }
 
         return view

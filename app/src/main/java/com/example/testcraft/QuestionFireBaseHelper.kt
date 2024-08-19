@@ -55,11 +55,10 @@ class QuestionFireBaseHelper(private val activity: Activity) {
         val questionsRef = firestore.collection("Tests")
             .document(examTitle) // Exam title koleksiyonu
             .collection(lessonTitle) // Lesson title alt koleksiyonu
-            .document(photoRating) // Photo rating alt koleksiyonu
-            .collection("Questions") // Questions alt koleksiyonu
+            .document(photoRating) // Photo rating belgesi
 
         // Yeni bir questionID oluştur
-        val newQuestionRef = questionsRef.document() // Firestore otomatik olarak yeni bir ID oluşturur
+        val newQuestionRef = questionsRef.collection("Questions").document() // Firestore otomatik olarak yeni bir ID oluşturur
 
         // Veriyi oluştur
         val questionData = hashMapOf(
@@ -80,7 +79,6 @@ class QuestionFireBaseHelper(private val activity: Activity) {
                 showToast("Soru kaydedilirken hata oluştu: ${e.message}")
             }
     }
-
 
 
 
