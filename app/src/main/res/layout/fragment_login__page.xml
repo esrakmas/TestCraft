@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SignUpTabFragment">
+    tools:context=".LoginPageFragment">
 
 
     <LinearLayout
@@ -21,12 +21,12 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
-                android:src="@drawable/baseline_lock_24"/>
+                android:background="@drawable/baseline_vpn_key_24"/>
             <EditText
                 android:layout_width="300dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:id="@+id/signup_email"
+                android:id="@+id/login_email"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
                 android:hint="Email"
@@ -37,7 +37,7 @@
                 android:layout_width="300dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:id="@+id/signup_password"
+                android:id="@+id/login_password"
                 android:layout_marginTop="20dp"
                 android:padding="8dp"
                 android:hint="Password"
@@ -45,27 +45,16 @@
                 android:drawableLeft="@drawable/baseline_lock_24"
                 android:drawablePadding="8dp"
                 android:background="@drawable/edittext_bkg"/>
-            <EditText
-                android:layout_width="300dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:id="@+id/signup_confirm"
-                android:layout_marginTop="20dp"
-                android:padding="8dp"
-                android:hint="Confirm Password"
-                android:inputType="textPassword"
-                android:drawableLeft="@drawable/baseline_lock_24"
-                android:drawablePadding="8dp"
-                android:background="@drawable/edittext_bkg"/>
+
             <Button
+                android:id="@+id/login_button"
                 android:layout_width="300dp"
                 android:layout_height="70dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-                android:id="@+id/signup_button"
-                android:textSize="18sp"
-                android:text="Signup"
-                />
+                android:onClick="anamenuyegec"
+                android:text="Login"
+                android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>
 

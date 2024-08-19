@@ -9,10 +9,10 @@ import android.view.View
 import com.example.testcraft.databinding.ActivityLoginSignUpPageBinding
 import com.google.android.material.tabs.TabLayout
 
-class LoginSignUpPage : AppCompatActivity() {
+class LoginSignupPage : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginSignUpPageBinding
-    private lateinit var adapter: LoginSignupViewPagerAdapter
+    private lateinit var adapter: LoginSignupPageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +27,7 @@ class LoginSignUpPage : AppCompatActivity() {
         tabLayout.addTab(tabLayout.newTab().setText("Signup"))
 
         val fragmentManager: FragmentManager = supportFragmentManager
-        adapter = LoginSignupViewPagerAdapter(fragmentManager, lifecycle)
+        adapter = LoginSignupPageAdapter(fragmentManager, lifecycle)
         viewPager2.adapter = adapter
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -56,7 +56,7 @@ class LoginSignUpPage : AppCompatActivity() {
 
     fun anamenuyegec(view : View){
 
-        val intent = Intent(this,HomePage::class.java)//burdan main acv2 ye gitmek istiyorum
+        val intent = Intent(this,HomePageActivity::class.java)//burdan main acv2 ye gitmek istiyorum
         startActivity(intent)
         finish()
     }

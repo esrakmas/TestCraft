@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class SettingsAdapter(private val options: List<String>, private val clickListener: (String) -> Unit) :
-    RecyclerView.Adapter<SettingsAdapter.SettingsViewHolder>() {
+class SettingsPageAdapter(private val options: List<String>, private val clickListener: (String) -> Unit) :
+    RecyclerView.Adapter<SettingsPageAdapter.SettingsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingsViewHolder {
         val view = LayoutInflater.from(parent.context)

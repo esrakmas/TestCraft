@@ -13,10 +13,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [SignUpTabFragment.newInstance] factory method to
+ * Use the [LoginPageFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SignUpTabFragment : Fragment() {
+class LoginPageFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -34,7 +34,7 @@ class SignUpTabFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_up__tab_, container, false)
+        return inflater.inflate(R.layout.fragment_login__page, container, false)
     }
 
     companion object {
@@ -44,12 +44,12 @@ class SignUpTabFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment SignUp_Tab_Fragment.
+         * @return A new instance of fragment Login_Tab_Fragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            SignUpTabFragment().apply {
+            LoginPageFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

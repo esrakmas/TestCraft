@@ -63,7 +63,7 @@ class QuestionFireBaseHelper(private val activity: Activity) {
                 callback(groupedQuestions)
             }
             .addOnFailureListener { e ->
-                showToast("Sorular getirilirken hata oluştu: ${e.message}")
+                showToast("Sınav adları getirilirken hata oluştu: ${e.message}")
             }
     }
 

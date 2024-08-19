@@ -11,18 +11,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 
-class SettingsFragment : Fragment() {
+class SettingsPageFragment : Fragment() {
 
     private lateinit var settingsRecyclerView: RecyclerView
     private val firestore = FirebaseFirestore.getInstance()
     private var examTitles: List<String> = listOf() // Sınav başlıklarını burada tutacağız
-    private lateinit var pagerAdapter: TestPagerAdapter
+    private lateinit var pagerAdapter: TestPageAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_settings, container, false)
+        val view = inflater.inflate(R.layout.fragment_settings_page, container, false)
 
         settingsRecyclerView = view.findViewById(R.id.settingsRecyclerView)
         settingsRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -34,7 +34,7 @@ class SettingsFragment : Fragment() {
             "Hesabımı Sil"
         )
 
-        settingsRecyclerView.adapter = SettingsAdapter(settingsOptions) { option ->
+        settingsRecyclerView.adapter = SettingsPageAdapter(settingsOptions) { option ->
             when (option) {
                 "Şifre Değiştir" -> {
                     // Şifre değiştirme işlemi

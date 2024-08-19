@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class TestPagerAdapter(
+class TestPageAdapter(
     fragmentActivity: FragmentActivity,
     private var examTitleList: List<String>,
     private var questionsMap: Map<String, List<Map<String, Any>>>
@@ -17,7 +17,7 @@ class TestPagerAdapter(
     override fun createFragment(position: Int): Fragment {
         val examTitle = examTitleList[position]
         val questions = questionsMap[examTitle]
-        return QuestionsFragment.newInstance(examTitle, questions)
+        return LessonFragment.newInstance(examTitle, questions)
     }
 
     // Bu yöntem adapter'ı güncellemek için kullanılır

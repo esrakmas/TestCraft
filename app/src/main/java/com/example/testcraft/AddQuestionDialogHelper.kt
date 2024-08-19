@@ -6,21 +6,19 @@ import android.app.Dialog
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RatingBar
 import android.widget.Spinner
 import android.widget.Toast
-import com.example.testcraft.databinding.AddQuestionLayoutBinding
+import com.example.testcraft.databinding.AddQuestionDialogLayoutBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
 //
 
-class BottomDialogHelper(private val activity: Activity) {
+class AddQuestionDialogHelper(private val activity: Activity) {
 
     private val photoHandler = PhotoHandler(activity)
     private val db = FirebaseFirestore.getInstance()
@@ -33,7 +31,7 @@ class BottomDialogHelper(private val activity: Activity) {
 
 
         // Binding kullanarak layout erişimi
-        val binding = AddQuestionLayoutBinding.inflate(dialog.layoutInflater)
+        val binding = AddQuestionDialogLayoutBinding.inflate(dialog.layoutInflater)
         dialog.setContentView(binding.root)
 
         // Dialog'un genişliğini ekranın %90'ı olacak şekilde ayarlıyoruz

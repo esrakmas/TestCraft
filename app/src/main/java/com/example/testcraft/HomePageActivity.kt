@@ -1,33 +1,20 @@
 package com.example.testcraft
 
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.view.ViewGroup
-import android.view.Window
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.replace
 import com.example.testcraft.databinding.ActivityHomePageBinding
-import com.google.firebase.firestore.FirebaseFirestore
 
-class  HomePage : AppCompatActivity() {
+class  HomePageActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomePageBinding
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var bottomdialoghelper: BottomDialogHelper
+    private lateinit var bottomdialoghelper: AddQuestionDialogHelper
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,13 +24,13 @@ class  HomePage : AppCompatActivity() {
 
         Log.d("BindingCheck", "binding: ${binding.navigationView}")
 
-        replaceFragment(TestFragment())
+        replaceFragment(TestPageFragment())
 
         setupDrawer()
 
         setSupportActionBar(binding.toolbar) //ekledin
 
-        bottomdialoghelper = BottomDialogHelper(this)
+        bottomdialoghelper = AddQuestionDialogHelper(this)
 
 
 
@@ -58,16 +45,16 @@ class  HomePage : AppCompatActivity() {
 
                 when (menuItem.itemId) {
                     R.id.profile -> {
-                        replaceFragment(ProfileFragment())
+                        replaceFragment(ProfilePageFragment())
                         showToast("Profile gir")}
                     R.id.settings -> {
-                        replaceFragment(SettingsFragment())
+                        replaceFragment(SettingsPageFragment())
                         showToast("Ayarlara gir")}
                     R.id.logout -> {
                         showToast("Çıkış yapıldı")
 
                         // Login sayfasına yönlendirme
-                        val intent = Intent(this@HomePage, LoginSignUpPage::class.java)
+                        val intent = Intent(this@HomePageActivity, LoginSignupPage::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish() // Bu aktiviteyi kapatır
@@ -85,8 +72,8 @@ class  HomePage : AppCompatActivity() {
                     Log.d("bottomChek", "bottom: ${binding.bottomNavigationView}")
 
                     when (menuItem.itemId) {
-                    R.id.test -> replaceFragment(TestFragment())
-                    R.id.archive -> replaceFragment(ArchiveFragment())
+                    R.id.test -> replaceFragment(TestPageFragment())
+                    R.id.archive -> replaceFragment(ArchivePageFragment())
                     else->{
                     }
                 }
@@ -106,7 +93,7 @@ class  HomePage : AppCompatActivity() {
     //yan menü çizgisini ayarlıyor
     private fun setupDrawer() {
         setSupportActionBar(binding.toolbar)
-        toggle = ActionBarDrawerToggle(this@HomePage, binding.drawerLayout, R.string.open, R.string.close) //Bu, yan menü simgesini (hamburger menüsü) ve metin kaynaklarını tanımlar.
+        toggle = ActionBarDrawerToggle(this@HomePageActivity, binding.drawerLayout, R.string.open, R.string.close) //Bu, yan menü simgesini (hamburger menüsü) ve metin kaynaklarını tanımlar.
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
