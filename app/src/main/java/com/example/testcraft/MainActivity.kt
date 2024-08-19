@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         // 3 saniye sonra LoginPageActivity'ye geçiş
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this@MainActivity, LoginSignupPage::class.java)
+            val intent = Intent(this@MainActivity, LoginSignupPageActivity::class.java)
             startActivity(intent)
             finish() // MainActivity'yi kapatır
         }, 1000) // 3000 milisaniye, yani 3 saniye

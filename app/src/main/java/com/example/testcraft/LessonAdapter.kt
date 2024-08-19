@@ -6,8 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class LessonAdapter(private val lessonList: List<Map<String, Any>>) :
+
+
+
+class LessonAdapter(private val lessonList: MutableList<Map<String, Any>> = mutableListOf()) :
     RecyclerView.Adapter<LessonAdapter.LessonViewHolder>() {
+
+    private val uniqueLessonTitles = mutableSetOf<String>()
 
     class LessonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val lessonTitle: TextView = view.findViewById(R.id.lessonTitleTextView)
@@ -27,4 +32,16 @@ class LessonAdapter(private val lessonList: List<Map<String, Any>>) :
     override fun getItemCount(): Int {
         return lessonList.size
     }
+
+    // Benzersiz lesson_title'ları ekleyen fonksiyon
+    fun setLessons(lessons: List<Map<String, Any>>) {
+        for (lesson in lessons) {
+            val lessonTitle = lesson["lesson_title"]?.toString()?.trim()?.lowercase()
+            if (lessonTitle != null && uniqueLessonTitles.add(lessonTitle)) {
+                lessonList.add(lesson)
+            }
+        }
+        notifyDataSetChanged()
+    }
 }
+

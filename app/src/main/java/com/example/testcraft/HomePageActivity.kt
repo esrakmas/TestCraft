@@ -54,7 +54,7 @@ class  HomePageActivity : AppCompatActivity() {
                         showToast("Çıkış yapıldı")
 
                         // Login sayfasına yönlendirme
-                        val intent = Intent(this@HomePageActivity, LoginSignupPage::class.java)
+                        val intent = Intent(this@HomePageActivity, LoginSignupPageActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish() // Bu aktiviteyi kapatır

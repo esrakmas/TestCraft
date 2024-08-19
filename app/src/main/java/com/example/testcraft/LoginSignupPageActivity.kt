@@ -6,17 +6,17 @@ import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.widget.ViewPager2
 import android.os.Bundle
 import android.view.View
-import com.example.testcraft.databinding.ActivityLoginSignUpPageBinding
+import com.example.testcraft.databinding.ActivityLoginSignupPageBinding
 import com.google.android.material.tabs.TabLayout
 
-class LoginSignupPage : AppCompatActivity() {
+class LoginSignupPageActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityLoginSignUpPageBinding
+    private lateinit var binding: ActivityLoginSignupPageBinding
     private lateinit var adapter: LoginSignupPageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginSignUpPageBinding.inflate(layoutInflater)
+        binding = ActivityLoginSignupPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // View Binding ile TabLayout ve ViewPager2'e erişim

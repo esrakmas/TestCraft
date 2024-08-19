@@ -12,13 +12,13 @@ class LessonFragment : Fragment() {
 
     companion object {
         private const val ARG_EXAM_TITLE = "exam_title"
-        private const val ARG_QUESTIONS = "questions"
+        private const val ARG_QUESTIONS = "lessons"
 
-        fun newInstance(examTitle: String, questions: List<Map<String, Any>>?): LessonFragment {
+        fun newInstance(examTitle: String, lessons: List<Map<String, Any>>?): LessonFragment {
             val fragment = LessonFragment()
             val args = Bundle()
             args.putString(ARG_EXAM_TITLE, examTitle)
-            args.putSerializable(ARG_QUESTIONS, ArrayList(questions))
+            args.putSerializable(ARG_QUESTIONS, ArrayList(lessons))
             fragment.arguments = args
             return fragment
         }
@@ -35,15 +35,19 @@ class LessonFragment : Fragment() {
 
         // Arguments'dan verileri al
         val examTitle = arguments?.getString(ARG_EXAM_TITLE)
-        val questions = arguments?.getSerializable(ARG_QUESTIONS) as? List<Map<String, Any>>
+        val lessons = arguments?.getSerializable(ARG_QUESTIONS) as? List<Map<String, Any>>
+
 
         // RecyclerView'i bul ve ayarla
         recyclerView = view.findViewById(R.id.recyclerViewLessons)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         // Adapter'i oluştur ve RecyclerView'e bağla
-        adapter = LessonAdapter(questions ?: emptyList())
+        adapter = LessonAdapter()
         recyclerView.adapter = adapter
+
+        // Benzersiz lesson_title'ları adapter'a ekle
+        lessons?.let { adapter.setLessons(it) }
 
         return view
     }
