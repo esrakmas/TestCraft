@@ -31,19 +31,13 @@ class QuestionFireBaseHelper(private val activity: Activity) {
 
         firestore.collection("questions")
             .add(questionData)
-            .addOnSuccessListener {
-                showToast("Soru başarıyla kaydedildi!")
 
-            }
-            .addOnFailureListener { e ->
-                showToast("Soru kaydedilirken hata oluştu: ${e.message}")
-            }
 
         groupQuestions(photoUrl, photoRating, examTitle, lessonTitle, answerChoices, photoNotes)
 
     }
-
-    fun groupQuestions(
+    // Soruları uygun koleksiyonlara gruplama
+    private fun groupQuestions(
         photoUrl: String,
         photoRating: String,
         examTitle: String,
@@ -51,34 +45,72 @@ class QuestionFireBaseHelper(private val activity: Activity) {
         answerChoices: String,
         photoNotes: String
     ) {
-        // Firestore referanslarını oluştur
+        val maxQuestions = 5
         val questionsRef = firestore.collection("Tests")
-            .document(examTitle) // Exam title koleksiyonu
-            .collection(lessonTitle) // Lesson title alt koleksiyonu
-            .document(photoRating) // Photo rating belgesi
+            .document(examTitle)
+            .collection(lessonTitle)
+            .document(photoRating)
 
-        // Yeni bir questionID oluştur
-        val newQuestionRef = questionsRef.collection("Questions").document() // Firestore otomatik olarak yeni bir ID oluşturur
+        questionsRef.get()
+            .addOnSuccessListener { snapshot ->
+                var currentCollectionNumber = 1
+                var currentCollectionName = "Test$currentCollectionNumber"
 
-        // Veriyi oluştur
-        val questionData = hashMapOf(
-            "photo_url" to photoUrl,
-            "photo_rating" to photoRating,
-            "exam_title" to examTitle,
-            "lesson_title" to lessonTitle,
-            "answer_choices" to answerChoices,
-            "photo_notes" to photoNotes
-        )
+                fun checkCollection(collectionName: String, onComplete: (Boolean) -> Unit) {
+                    questionsRef.collection(collectionName)
+                        .get()
+                        .addOnSuccessListener { collectionSnapshot ->
+                            onComplete(collectionSnapshot.size() < maxQuestions)
+                        }
+                        .addOnFailureListener { e ->
+                            showToast("Koleksiyonlar alınırken hata oluştu: ${e.message}")
+                        }
+                }
 
-        // Veriyi Firestore'a ekle
-        newQuestionRef.set(questionData)
-            .addOnSuccessListener {
-                showToast("Soru başarıyla kaydedildi!")
+                fun findSuitableCollection() {
+                    checkCollection(currentCollectionName) { isSuitable ->
+                        if (isSuitable) {
+                            val newQuestionRef = questionsRef.collection(currentCollectionName)
+                                .document()
+
+                            val questionData = hashMapOf(
+                                "photo_url" to photoUrl,
+                                "photo_rating" to photoRating,
+                                "exam_title" to examTitle,
+                                "lesson_title" to lessonTitle,
+                                "answer_choices" to answerChoices,
+                                "photo_notes" to photoNotes
+                            )
+
+                            newQuestionRef.set(questionData)
+                                .addOnSuccessListener {
+                                    showToast("Soru başarıyla kaydedildi!")
+                                }
+                                .addOnFailureListener { e ->
+                                    showToast("Soru kaydedilirken hata oluştu: ${e.message}")
+                                }
+                        } else {
+                            currentCollectionNumber++
+                            currentCollectionName = "Test$currentCollectionNumber"
+                            findSuitableCollection()
+                        }
+                    }
+                }
+
+                findSuitableCollection()
             }
             .addOnFailureListener { e ->
-                showToast("Soru kaydedilirken hata oluştu: ${e.message}")
+                showToast("Koleksiyonlar alınırken hata oluştu: ${e.message}")
             }
     }
+
+
+
+
+
+
+
+
 
 
 
