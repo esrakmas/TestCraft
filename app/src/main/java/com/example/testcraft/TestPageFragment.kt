@@ -1,6 +1,7 @@
 package com.example.testcraft
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,23 +29,35 @@ class TestPageFragment : Fragment() {
         // activity nesnesinin null olup olmadığını kontrol edin
         activity?.let { activity ->
             val firebaseHelper = QuestionFireBaseHelper(activity)
-            firebaseHelper.fetchQuestionsByExamTitle { groupedQuestions ->
-                // Firebase'den gelen veriler ile adapter'ı güncelle
-                val examTitleList = groupedQuestions.keys.toList()
+            firebaseHelper.fetchGroupsByExamTitle   { groupedLessons  ->
 
-                testPageAdapter = TestPageAdapter(activity, examTitleList, groupedQuestions)
+
+                /*
+                Anahtarları Listeye Çevirme:
+                groupedLessons.keys ifadesi, groupedLessons'ın tüm anahtarlarını (exam_title değerlerini) alır.
+                toList() metodu ise bu anahtarları bir List (liste) haline getirir
+                */
+                val examTitleList = groupedLessons .keys.toList()
+
+                testPageAdapter = TestPageAdapter(activity, examTitleList, groupedLessons )
                 viewPager.adapter = testPageAdapter
 
-                // TabLayout ile ViewPager2'yi bağlayın
+                // { tab, position -> ... }: Bu lambda fonksiyonu,
+                // her bir sekme (tab) için başlık metnini (examTitleList[position]) ayarlar.
                 TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                     tab.text = examTitleList[position]
                 }.attach()
+                testPageAdapter.updateData(examTitleList, groupedLessons)
+
             }
         } ?: run {
-            // activity null ise, gerekli önlemleri burada alın
-            // Örneğin, bir hata mesajı gösterebilirsiniz
+            Log.e("TestPage", "questions boş")
         }
 
         return view
     }
+
+
 }
+
+

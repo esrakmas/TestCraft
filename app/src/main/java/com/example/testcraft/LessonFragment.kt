@@ -1,5 +1,6 @@
 package com.example.testcraft
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ class LessonFragment : Fragment() {
 
     companion object {
         private const val ARG_EXAM_TITLE = "exam_title"
+        private const val ARG_LESSON_TITLE = "lesson_title"
         private const val ARG_QUESTIONS = "lessons"
 
         fun newInstance(examTitle: String, lessons: List<Map<String, Any>>?): LessonFragment {
@@ -51,4 +53,13 @@ class LessonFragment : Fragment() {
 
         return view
     }
+
+    private fun onLessonItemClicked(lessonTitle: String) {
+        // Ders itemına tıklandığında TestListActivity'ye geçiş yap
+        val intent = Intent(activity, TestListActivity::class.java)
+        intent.putExtra("lesson_title", lessonTitle)
+        startActivity(intent)
+    }
+
+
 }

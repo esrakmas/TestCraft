@@ -88,7 +88,7 @@ class AddQuestionDialogHelper(private val activity: Activity) {
         saveQuestionButton.setOnClickListener{
             // Form doğrulaması yap
             val photoUrl = photoUrlImageView.tag?.toString() ?: "default_url"
-            val photoRating = photoRatingBar.rating.toString()
+            val photoRating = photoRatingBar.rating.toDouble()
             val examTitle = examTitleSpinner.selectedItem.toString()
             val lessonTitle = lessonTitleSpinner.selectedItem.toString()
             val photoNotes = photoNotesEditText.text.toString()
@@ -103,7 +103,7 @@ class AddQuestionDialogHelper(private val activity: Activity) {
             if (examTitle.isEmpty()) {
                 errorMessages.add("Lütfen sınav türünü seçiniz.")
             }
-            if (photoRating =="0.0") {
+            if (photoRating ==0.0) {
                 errorMessages.add("Lütfen sorunun seviyesini seçiniz.")
             }
             if (lessonTitle.isEmpty()) {
@@ -121,7 +121,7 @@ class AddQuestionDialogHelper(private val activity: Activity) {
 
                 questionFireBaseHelper.saveQuestion(
                     photoUrl = photoUrlImageView.tag?.toString() ?: "default_url",
-                    photoRating = photoRatingBar.rating.toString(),
+                    photoRating = photoRatingBar.rating.toDouble(),
                     examTitle = examTitleSpinner.selectedItem.toString(),
                     lessonTitle = lessonTitleSpinner.selectedItem.toString(),
                     photoNotes = photoNotesEditText.text.toString(),
