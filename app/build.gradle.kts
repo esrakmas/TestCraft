@@ -54,12 +54,16 @@ dependencies {
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.storage.ktx)
     implementation(libs.firebase.database)
+    implementation(libs.androidx.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("androidx.core:core-splashscreen:1.0.0")
+    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation ("androidx.recyclerview:recyclerview:1.2.0")
+
 
 
     val nav_version = "2.7.7"
