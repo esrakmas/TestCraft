@@ -22,6 +22,7 @@
         android:layout_marginStart="284dp"
         android:background="@drawable/baseline_info_24"
         app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/MidnightBlue"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,7 +26,7 @@
             android:textAlignment="viewStart"
             android:text="Soru Ekle"
             android:padding="8dp"
-            android:textColor="@color/lavender"
+            android:textColor="@color/MidnightBlue"
             android:layout_marginStart="12dp"
             android:layout_marginTop="5dp"
             android:textSize="25dp" />
@@ -57,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Galeriden Seç"
-            android:textColor="@color/lavender"
+            android:textColor="@color/RoyalBlue"
             android:layout_marginLeft="30dp"
             android:textSize="16sp"/>
 
@@ -80,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fotoğraf Çek"
-            android:textColor="@color/lavender"
+            android:textColor="@color/RoyalBlue"
             android:layout_marginLeft="30dp"
             android:textSize="16sp"/>
 
@@ -103,6 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sorunun zorluk derecesini seçiniz:"
+            android:textColor="@color/RoyalBlue"
             android:padding="3dp"/>
 
         <RatingBar
@@ -118,6 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sınav türü seçiniz:"
+            android:textColor="@color/RoyalBlue"
             android:padding="3dp"/>
 
         <Spinner
@@ -131,6 +134,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ders türü seçiniz:"
+            android:textColor="@color/RoyalBlue"
             android:padding="3dp"/>
 
         <Spinner
@@ -145,6 +149,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Doğru cevabı seçiniz:"
+            android:textColor="@color/RoyalBlue"
             android:padding="3dp"/>
 
         <RadioGroup
@@ -160,35 +165,35 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:text="A"
-                    android:textColor="@color/lavender" />
+                    android:textColor="@color/RoyalBlue" />
 
                 <RadioButton
                     android:id="@+id/choice_b"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="B"
-                    android:textColor="@color/lavender" />
+                    android:textColor="@color/RoyalBlue" />
 
                 <RadioButton
                     android:id="@+id/choice_c"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="C"
-                    android:textColor="@color/lavender" />
+                    android:textColor="@color/RoyalBlue" />
 
                 <RadioButton
                     android:id="@+id/choice_d"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="D"
-                    android:textColor="@color/lavender" />
+                    android:textColor="@color/RoyalBlue" />
 
                 <RadioButton
                     android:id="@+id/choice_e"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="E"
-                    android:textColor="@color/lavender" />
+                    android:textColor="@color/RoyalBlue" />
 
         </RadioGroup>
 
@@ -197,6 +202,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Eklemek istedikleriniz:"
+            android:background="@drawable/bg2"
+
+            android:textColor="@color/white"
             android:padding="10dp" />
 
         <Button
@@ -204,7 +212,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Soruyu ekle"
-            android:layout_gravity="end"/>
+            android:layout_gravity="end"
+            android:backgroundTint="@color/MidnightBlue"/>
+
     </LinearLayout>
 
 

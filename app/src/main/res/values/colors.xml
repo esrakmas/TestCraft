@@ -2,11 +2,18 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
     <color name="RoyalBlue">#045ce4</color>
     <color name="DarkBlue">#0332a1</color>
     <color name="MidnightBlue">#021476</color>
     <color name="AzureBlue">#0245ce</color>
-    <color name="SkyBlue">#1487f1</color>
+    <color name="mavi2">#148EFF</color>
+    <color name="mavi3">#89CBFF</color>
+    <color name="mavi">#36A7FF</color>
+    <color name="logo1">#98E5FB</color>
+    <color name="logo2">#C7EEFD</color>
+
+
 
 
 

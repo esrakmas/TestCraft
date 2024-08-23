@@ -1,25 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@drawable/bg_tek"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="256dp"
-        android:layout_height="94dp"
+        android:id="@+id/appNameTextView"
+        android:layout_width="306dp"
+        android:layout_height="151dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:padding="16dp"
+        android:shadowColor="@color/black"
+        android:shadowDx="4"
+        android:shadowDy="2"
+        android:shadowRadius="8"
         android:text="TestCraft"
-        android:textAlignment="center"
-        android:textColor="#4B1515"
-        android:textColorLink="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="50sp"
         android:textStyle="bold" />
 
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="54dp"
+        android:layout_height="68dp"
+        app:srcCompat="@drawable/logo" />
 
 
 </LinearLayout>

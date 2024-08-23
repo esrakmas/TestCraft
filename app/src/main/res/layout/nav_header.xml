@@ -10,9 +10,9 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="75dp"
-        android:src="@drawable/ic_launcher_foreground" />
+        android:layout_width="67dp"
+        android:layout_height="54dp"
+        android:src="@drawable/user2" />
 
     <TextView
         android:layout_width="wrap_content"

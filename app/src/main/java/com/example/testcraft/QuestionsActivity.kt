@@ -10,7 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.common.reflect.TypeToken
+
 import com.google.gson.Gson
 
 
@@ -30,7 +30,7 @@ class QuestionsActivity : AppCompatActivity() {
 
 
         val jsonData = intent.getStringExtra("QUESTION_DATA") ?: "[]"
-        questions = Gson().fromJson(jsonData, object : TypeToken<List<Map<String, Any?>>>() {}.type)
+
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)

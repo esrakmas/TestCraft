@@ -18,10 +18,7 @@
             android:orientation="vertical"
             android:layout_marginTop="20dp"
             android:padding="20dp">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="200dp"
-                android:background="@drawable/baseline_vpn_key_24"/>
+
             <EditText
                 android:layout_width="300dp"
                 android:layout_height="60dp"
@@ -29,7 +26,7 @@
                 android:id="@+id/login_email"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
-                android:hint="Email"
+                android:hint="E-posta"
                 android:drawableLeft="@drawable/baseline_mail_24"
                 android:drawablePadding="8dp"
                 android:background="@drawable/edittext_bkg"/>
@@ -40,7 +37,7 @@
                 android:id="@+id/login_password"
                 android:layout_marginTop="20dp"
                 android:padding="8dp"
-                android:hint="Password"
+                android:hint="Şifre"
                 android:inputType="textPassword"
                 android:drawableLeft="@drawable/baseline_lock_24"
                 android:drawablePadding="8dp"
@@ -53,8 +50,9 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:onClick="anamenuyegec"
-                android:text="Login"
-                android:textSize="18sp" />
+                android:text="Giriş"
+                android:textSize="18sp"
+                android:backgroundTint="@color/MidnightBlue"/>
         </LinearLayout>
     </LinearLayout>
 
