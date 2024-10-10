@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class SettingsPageFragment : Fragment() {
@@ -17,6 +20,7 @@ class SettingsPageFragment : Fragment() {
     private val firestore = FirebaseFirestore.getInstance()
     private var examTitles: List<String> = listOf() // Sınav başlıklarını burada tutacağız
     private lateinit var pagerAdapter: TestPageAdapter
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +30,8 @@ class SettingsPageFragment : Fragment() {
 
         settingsRecyclerView = view.findViewById(R.id.settingsRecyclerView)
         settingsRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        auth = FirebaseAuth.getInstance()
 
         val settingsOptions = listOf(
             "Şifre Değiştir",
@@ -37,19 +43,16 @@ class SettingsPageFragment : Fragment() {
         settingsRecyclerView.adapter = SettingsPageAdapter(settingsOptions) { option ->
             when (option) {
                 "Şifre Değiştir" -> {
-                    // Şifre değiştirme işlemi
-                    showToast("Şifre değiştirme işlemi başarılı.")
+                    showPasswordChangeDialog()
                 }
                 "Sınav Başlığı Sil" -> {
                     showExamTitleDeleteDialog()
                 }
                 "Ders Başlığı Sil" -> {
-                    // Ders başlığı silme işlemi
                     showToast("Ders başlığı silme işlemi başarılı.")
                 }
                 "Hesabımı Sil" -> {
-                    // Hesabı silme işlemi
-                    showToast("Hesap silme işlemi başarılı.")
+                    deleteAccount()
                 }
             }
         }
@@ -66,6 +69,60 @@ class SettingsPageFragment : Fragment() {
         }
     }
 
+    private fun showPasswordChangeDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_change_password, null)
+
+        val currentPasswordEditText: EditText = dialogView.findViewById(R.id.etCurrentPassword)
+        val newPasswordEditText: EditText = dialogView.findViewById(R.id.etNewPassword)
+        val confirmNewPasswordEditText: EditText = dialogView.findViewById(R.id.etConfirmNewPassword)
+
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+            .setTitle("Şifre Değiştir")
+            .setView(dialogView)
+            .setNegativeButton("İptal", null)
+
+        dialogBuilder.setPositiveButton("Şifreyi Değiştir") { _, _ ->
+            val currentPassword = currentPasswordEditText.text.toString().trim()
+            val newPassword = newPasswordEditText.text.toString().trim()
+            val confirmNewPassword = confirmNewPasswordEditText.text.toString().trim()
+
+            if (currentPassword.isEmpty() || newPassword.isEmpty() || confirmNewPassword.isEmpty()) {
+                showToast("Lütfen tüm alanları doldurun.")
+                return@setPositiveButton
+            }
+
+            if (newPassword != confirmNewPassword) {
+                showToast("Yeni şifreler uyuşmuyor.")
+                return@setPositiveButton
+            }
+
+            changePassword(currentPassword, newPassword)
+        }
+
+        dialogBuilder.create().show()
+    }
+
+    private fun changePassword(currentPassword: String, newPassword: String) {
+        val user = auth.currentUser
+
+        if (user != null) {
+            val credentials = EmailAuthProvider.getCredential(user.email!!, currentPassword)
+            user.reauthenticate(credentials).addOnCompleteListener { reAuthTask ->
+                if (reAuthTask.isSuccessful) {
+                    user.updatePassword(newPassword).addOnCompleteListener { updateTask ->
+                        if (updateTask.isSuccessful) {
+                            showToast("Şifre başarıyla değiştirildi.")
+                        } else {
+                            showToast("Şifre değiştirilemedi: ${updateTask.exception?.message}")
+                        }
+                    }
+                } else {
+                    showToast("Mevcut şifre hatalı.")
+                }
+            }
+        }
+    }
+
     private fun showExamTitleDeleteDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Sınav Başlığı Sil")
@@ -76,9 +133,7 @@ class SettingsPageFragment : Fragment() {
             showConfirmationDialog(selectedTitle)
         }
 
-        builder.setNegativeButton("İptal") { dialog, _ ->
-            dialog.dismiss()
-        }
+        builder.setNegativeButton("İptal") { dialog, _ -> dialog.dismiss() }
 
         builder.create().show()
     }
@@ -88,13 +143,8 @@ class SettingsPageFragment : Fragment() {
         builder.setTitle("Onay")
         builder.setMessage("$title başlığını silmek istediğinize emin misiniz?")
 
-        builder.setPositiveButton("Evet") { _, _ ->
-            deleteExamTitle(title)
-        }
-
-        builder.setNegativeButton("Hayır") { dialog, _ ->
-            dialog.dismiss()
-        }
+        builder.setPositiveButton("Evet") { _, _ -> deleteExamTitle(title) }
+        builder.setNegativeButton("Hayır") { dialog, _ -> dialog.dismiss() }
 
         builder.create().show()
     }
@@ -117,7 +167,18 @@ class SettingsPageFragment : Fragment() {
 
     private fun updateTabsAfterDeletion(title: String) {
         // Bu işlem, TestPagerAdapter'ı yeniden oluşturmayı ve ViewPager2'yi güncellemeyi içerebilir
-        // Eğer ViewPager2'yi doğrudan etkiliyorsanız, burada gerekli işlemi yapmalısınız
+    }
+
+    private fun deleteAccount() {
+        val user = auth.currentUser
+        user?.delete()
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    showToast("Hesap başarıyla silindi.")
+                } else {
+                    showToast("Hesap silinirken hata oluştu: ${task.exception?.message}")
+                }
+            }
     }
 
     private fun showToast(message: String) {
