@@ -1,6 +1,7 @@
 package com.example.testcraft
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.testcraft.loginandsignup.LoginSignupPageActivity
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -170,16 +172,33 @@ class SettingsPageFragment : Fragment() {
     }
 
     private fun deleteAccount() {
-        val user = auth.currentUser
-        user?.delete()
-            ?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    showToast("Hesap başarıyla silindi.")
-                } else {
-                    showToast("Hesap silinirken hata oluştu: ${task.exception?.message}")
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Hesap Silme")
+        builder.setMessage("Hesabınızı silmek istediğinizden emin misiniz? Bütün bilgileriniz kalıcı olarak silinecektir.")
+        builder.setPositiveButton("Evet") { _, _ ->
+            val user = auth.currentUser
+            user?.delete()
+                ?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        showToast("Hesap başarıyla silindi.")
+                        // Kullanıcıyı giriş ekranına yönlendirebilirsiniz
+                        // Giriş ekranına yönlendirmek için örneğin:
+                        // startActivity(Intent(requireContext(), LoginActivity::class.java))
+                        val intent = Intent(requireContext(), LoginSignupPageActivity::class.java)
+                        startActivity(intent)
+                        requireActivity().finish()
+                    } else {
+                        showToast("Hesap silinirken hata oluştu: ${task.exception?.message}")
+                    }
                 }
-            }
+        }
+        builder.setNegativeButton("Hayır") { dialog, _ ->
+            dialog.dismiss() // Kullanıcı silme işleminden vazgeçerse diyaloğu kapat
+        }
+
+        builder.create().show()
     }
+
 
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
