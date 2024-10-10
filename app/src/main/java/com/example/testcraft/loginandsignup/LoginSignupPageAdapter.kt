@@ -1,4 +1,4 @@
-package com.example.testcraft
+package com.example.testcraft.loginandsignup
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

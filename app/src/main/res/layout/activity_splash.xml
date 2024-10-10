@@ -5,11 +5,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_shape"
+    android:background="@drawable/navheader_bg"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MainActivity">
-
+    tools:context=".SplashActivity">
 
     <TextView
         android:id="@+id/appNameTextView"
@@ -29,9 +28,9 @@
 
     <ImageView
         android:id="@+id/imageView"
+        app:srcCompat="@drawable/logo2"
         android:layout_width="83dp"
-        android:layout_height="86dp"
-        app:srcCompat="@drawable/logo2" />
+        android:layout_height="86dp" />
 
 
 </LinearLayout>

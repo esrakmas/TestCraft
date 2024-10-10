@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
     android:padding="16dp">
 
     <ImageView
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/baseline_remove_24"
         android:layout_gravity="center|top"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/baseline_remove_24" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,67 +23,64 @@
             android:id="@+id/createText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
-            android:text="Soru Ekle"
-            android:padding="8dp"
-            android:textColor="@color/MidnightBlue"
             android:layout_marginStart="12dp"
             android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:text="Soru Ekle"
+            android:textAlignment="viewStart"
             android:textSize="25dp" />
 
         <ImageView
+            android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_clear_24"
             android:layout_marginLeft="100dp"
-            android:id="@+id/cancelButton"/>
+            android:src="@drawable/baseline_clear_24" />
 
     </LinearLayout>
 
 
     <LinearLayout
         android:id="@+id/fromgallery"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
+        android:orientation="horizontal"
         android:padding="10dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_photo_library_24"/>
+            android:src="@drawable/baseline_photo_library_24" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Galeriden Seç"
-            android:textColor="@color/RoyalBlue"
             android:layout_marginLeft="30dp"
-            android:textSize="16sp"/>
+            android:text="Galeriden Seç"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/takephoto"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:padding="10dp">
 
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_photo_camera_24"/>
+            android:src="@drawable/baseline_photo_camera_24" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fotoğraf Çek"
-            android:textColor="@color/RoyalBlue"
             android:layout_marginLeft="30dp"
-            android:textSize="16sp"/>
+            android:text="Fotoğraf Çek"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -99,13 +96,13 @@
             android:layout_width="match_parent"
             android:layout_height="144dp"
             android:src="@drawable/placeholder" />
+
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sorunun zorluk derecesini seçiniz:"
-            android:textColor="@color/RoyalBlue"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:text="Sorunun zorluk derecesini seçiniz:" />
 
         <RatingBar
             android:id="@+id/photo_rating"
@@ -119,38 +116,34 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sınav türü seçiniz:"
-            android:textColor="@color/RoyalBlue"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:text="Sınav türü seçiniz:" />
 
         <Spinner
             android:id="@+id/exam_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            />
+            android:padding="8dp" />
+
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ders türü seçiniz:"
-            android:textColor="@color/RoyalBlue"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:text="Ders türü seçiniz:" />
 
         <Spinner
             android:id="@+id/lesson_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            />
+            android:padding="8dp" />
 
         <TextView
             android:id="@+id/answer_choice_prompt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Doğru cevabı seçiniz:"
-            android:textColor="@color/RoyalBlue"
-            android:padding="3dp"/>
+            android:padding="3dp"
+            android:text="Doğru cevabı seçiniz:" />
 
         <RadioGroup
             android:id="@+id/answer_choices"
@@ -159,41 +152,36 @@
             android:orientation="horizontal">
 
 
-                <RadioButton
-                    android:id="@+id/choice_a"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="A"
-                    android:textColor="@color/RoyalBlue" />
+            <RadioButton
+                android:id="@+id/choice_a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="A" />
 
-                <RadioButton
-                    android:id="@+id/choice_b"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="B"
-                    android:textColor="@color/RoyalBlue" />
+            <RadioButton
+                android:id="@+id/choice_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="B" />
 
-                <RadioButton
-                    android:id="@+id/choice_c"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="C"
-                    android:textColor="@color/RoyalBlue" />
+            <RadioButton
+                android:id="@+id/choice_c"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="C" />
 
-                <RadioButton
-                    android:id="@+id/choice_d"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="D"
-                    android:textColor="@color/RoyalBlue" />
+            <RadioButton
+                android:id="@+id/choice_d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="D" />
 
-                <RadioButton
-                    android:id="@+id/choice_e"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="E"
-                    android:textColor="@color/RoyalBlue" />
+            <RadioButton
+                android:id="@+id/choice_e"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="E" />
 
         </RadioGroup>
 
@@ -201,23 +189,20 @@
             android:id="@+id/photo_notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Eklemek istedikleriniz:"
             android:background="@drawable/bg2"
+            android:hint="Eklemek istedikleriniz:"
 
-            android:textColor="@color/white"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/save_question_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Soruyu ekle"
             android:layout_gravity="end"
-            android:backgroundTint="@color/MidnightBlue"/>
+            android:text="Soruyu ekle" />
 
     </LinearLayout>
-
-
 
 
 </LinearLayout>

@@ -8,7 +8,7 @@
         android:radius="45dp"
         />
     <stroke
-        android:color="@color/MidnightBlue"
+        android:color="@color/mavi2"
         android:width="1dp"
        />
 

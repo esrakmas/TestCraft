@@ -1,4 +1,4 @@
-package com.example.testcraft
+package com.example.testcraft.loginandsignup
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,8 +6,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.widget.ViewPager2
 import android.os.Bundle
 import android.view.View
+import com.example.testcraft.HomePageActivity
 import com.example.testcraft.databinding.ActivityLoginSignupPageBinding
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.FirebaseApp
+
 
 class LoginSignupPageActivity : AppCompatActivity() {
 
@@ -16,6 +19,7 @@ class LoginSignupPageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)  // Firebase’i başlat
         binding = ActivityLoginSignupPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -54,12 +58,6 @@ class LoginSignupPageActivity : AppCompatActivity() {
 
     }
 
-    fun anamenuyegec(view : View){
-
-        val intent = Intent(this,HomePageActivity::class.java)//burdan main acv2 ye gitmek istiyorum
-        startActivity(intent)
-        finish()
-    }
 
 
 }

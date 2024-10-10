@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Yan yana renk geçişi arka planı -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="@color/DarkBlue"
+                android:centerColor="@color/mavi2"
+                android:endColor="@color/mavi3"
+                android:angle="1" /> <!-- Geçişin yönü yatay (sol - sağ) -->
+        </shape>
+    </item>
+
+</layer-list>

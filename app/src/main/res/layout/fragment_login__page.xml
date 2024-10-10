@@ -1,59 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="370dp"
     android:orientation="vertical"
-    tools:context=".LoginPageFragment">
+    tools:context=".loginandsignup.LoginPageFragment">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            android:padding="20dp">
+    <EditText
+        android:id="@+id/login_email"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="55dp"
+        android:background="@drawable/bg2"
+        android:drawableLeft="@drawable/baseline_mail_24"
+        android:drawablePadding="8dp"
+        android:drawableTint="@color/mavi2"
+        android:hint="E-posta"
+        android:padding="8dp" />
 
-            <EditText
-                android:layout_width="300dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:id="@+id/login_email"
-                android:layout_marginTop="30dp"
-                android:padding="8dp"
-                android:hint="E-posta"
-                android:drawableLeft="@drawable/baseline_mail_24"
-                android:drawablePadding="8dp"
-                android:background="@drawable/edittext_bkg"/>
-            <EditText
-                android:layout_width="300dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:id="@+id/login_password"
-                android:layout_marginTop="20dp"
-                android:padding="8dp"
-                android:hint="Şifre"
-                android:inputType="textPassword"
-                android:drawableLeft="@drawable/baseline_lock_24"
-                android:drawablePadding="8dp"
-                android:background="@drawable/edittext_bkg"/>
+    <EditText
+        android:id="@+id/login_password"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg2"
+        android:drawableLeft="@drawable/baseline_lock_24"
+        android:drawablePadding="8dp"
+        android:drawableTint="@color/mavi2"
+        android:hint="Şifre"
+        android:inputType="textPassword"
+        android:padding="8dp" />
 
-            <Button
-                android:id="@+id/login_button"
-                android:layout_width="300dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:onClick="anamenuyegec"
-                android:text="Giriş"
-                android:textSize="18sp"
-                android:backgroundTint="@color/MidnightBlue"/>
-        </LinearLayout>
-    </LinearLayout>
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
+        android:onClick="anamenuyegec"
+        android:text="Giriş"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
 </LinearLayout>

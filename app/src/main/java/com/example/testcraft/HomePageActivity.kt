@@ -9,6 +9,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.testcraft.databinding.ActivityHomePageBinding
+import com.example.testcraft.loginandsignup.LoginSignupPageActivity
 
 class  HomePageActivity : AppCompatActivity() {
 

@@ -9,15 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.testcraft.databinding.ActivityMainBinding
+import com.example.testcraft.databinding.ActivitySplashBinding
 import com.example.testcraft.loginandsignup.LoginSignupPageActivity
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
+class SplashActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
         enableEdgeToEdge()
@@ -29,14 +29,9 @@ class MainActivity : AppCompatActivity() {
 
         // 3 saniye sonra LoginPageActivity'ye geçiş
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this@MainActivity, LoginSignupPageActivity::class.java)
+            val intent = Intent(this@SplashActivity, LoginSignupPageActivity::class.java)
             startActivity(intent)
             finish() // MainActivity'yi kapatır
         }, 1000) // 3000 milisaniye, yani 3 saniye
     }
-
-
-
-
-
 }
