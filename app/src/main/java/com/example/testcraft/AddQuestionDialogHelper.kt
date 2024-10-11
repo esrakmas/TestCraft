@@ -1,34 +1,23 @@
 package com.example.testcraft
 
-
 import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.RatingBar
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import com.example.testcraft.databinding.AddQuestionDialogLayoutBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
-//
-
 class AddQuestionDialogHelper(private val activity: Activity) {
 
-    private val photoHandler = PhotoHandler(activity)
+    val photoHandler = PhotoHandler(activity)
     private val db = FirebaseFirestore.getInstance()
     private val questionFireBaseHelper = QuestionFireBaseHelper(activity)
-
 
     fun showBottomDialog() {
         val dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-
 
         // Binding kullanarak layout erişimi
         val binding = AddQuestionDialogLayoutBinding.inflate(dialog.layoutInflater)
@@ -46,163 +35,90 @@ class AddQuestionDialogHelper(private val activity: Activity) {
         val examSpinner = binding.examSpinner
         val lessonSpinner = binding.lessonSpinner
         val saveQuestionButton = binding.saveQuestionButton
+        val photoPreview = binding.photoPreview
+        photoHandler.setPhotoPreview(photoPreview)
 
-
-
-
-
-        // Exam ve Lesson verilerini spinner'lara yükleme
-
-        fetchExam { titlesList ->
-            updateSpinner(examSpinner, titlesList)
-        }
-
-        fetchLesson { titlesList ->
-            updateSpinner(lessonSpinner, titlesList)
-        }
-
-        // tıklama olayları
         fromgallery.setOnClickListener {
             photoHandler.openGallery()
             Toast.makeText(activity, "Galeriden yükle", Toast.LENGTH_SHORT).show()
         }
 
         takephoto.setOnClickListener {
-            Toast.makeText(activity, "Foto çek", Toast.LENGTH_SHORT).show()
+            photoHandler.openCamera()
+            Toast.makeText(activity, "Fotoğraf çek", Toast.LENGTH_SHORT).show()
         }
 
         cancelButton.setOnClickListener {
             dialog.dismiss()
         }
 
-        val photoUrlImageView = dialog.findViewById<ImageView>(R.id.photo_preview)
-        val photoRatingBar = dialog.findViewById<RatingBar>(R.id.photo_rating)
-        val examTitleSpinner = dialog.findViewById<Spinner>(R.id.exam_spinner)
-        val lessonTitleSpinner = dialog.findViewById<Spinner>(R.id.lesson_spinner)
-        val photoNotesEditText = dialog.findViewById<EditText>(R.id.photo_notes)
+        // Exam ve Lesson verilerini spinner'lara yükleme
+        fetchExam { titlesList -> updateSpinner(examSpinner, titlesList) }
+        fetchLesson { titlesList -> updateSpinner(lessonSpinner, titlesList) }
 
-
-        val answerChoicesGroup = dialog.findViewById<RadioGroup>(R.id.answer_choices)
-
-
-        saveQuestionButton.setOnClickListener{
+        saveQuestionButton.setOnClickListener {
             // Form doğrulaması yap
-            val photoUrl = photoUrlImageView.tag?.toString() ?: "default_url"
-            val photoRating = photoRatingBar.rating.toDouble()
-            val examTitle = examTitleSpinner.selectedItem.toString()
-            val lessonTitle = lessonTitleSpinner.selectedItem.toString()
-            val photoNotes = photoNotesEditText.text.toString()
-            val answerChoices = getSelectedAnswerChoice(answerChoicesGroup)
+            val photoUrl = photoPreview.tag?.toString() ?: "default_url"
+            val photoRating = binding.photoRating.rating.toDouble()
+            val examTitle = examSpinner.selectedItem.toString()
+            val lessonTitle = lessonSpinner.selectedItem.toString()
+            val photoNotes = binding.photoNotes.text.toString()
+            val answerChoices = getSelectedAnswerChoice(binding.answerChoices)
 
-
-            // Hataları toplamak için bir liste oluştur
             val errorMessages = mutableListOf<String>()
 
-
-            // Gerekli alanların kontrolünü yap
-            if (examTitle.isEmpty()) {
-                errorMessages.add("Lütfen sınav türünü seçiniz.")
-            }
-            if (photoRating ==0.0) {
-                errorMessages.add("Lütfen sorunun seviyesini seçiniz.")
-            }
-            if (lessonTitle.isEmpty()) {
-                errorMessages.add("Lütfen ders türünü seçiniz.")
-            }
-            if (answerChoices == "No answer selected") {
-                errorMessages.add("Lütfen sorunun cevabını seçiniz.")
-            }
+            if (examTitle.isEmpty()) errorMessages.add("Lütfen sınav türünü seçiniz.")
+            if (photoRating == 0.0) errorMessages.add("Lütfen sorunun seviyesini seçiniz.")
+            if (lessonTitle.isEmpty()) errorMessages.add("Lütfen ders türünü seçiniz.")
+            if (answerChoices == "No answer selected") errorMessages.add("Lütfen sorunun cevabını seçiniz.")
 
             if (errorMessages.isNotEmpty()) {
-                // Uyarı mesajını oluştur ve göster
                 val errorMessage = errorMessages.joinToString("\n")
                 Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show()
-            }else{
-
-                questionFireBaseHelper.saveQuestion(
-                    photoUrl = photoUrlImageView.tag?.toString() ?: "default_url",
-                    photoRating = photoRatingBar.rating.toDouble(),
-                    examTitle = examTitleSpinner.selectedItem.toString(),
-                    lessonTitle = lessonTitleSpinner.selectedItem.toString(),
-                    photoNotes = photoNotesEditText.text.toString(),
-                    answerChoices = getSelectedAnswerChoice(answerChoicesGroup)
-                )
-
-                 }
+            } else {
+                questionFireBaseHelper.saveQuestion(photoUrl, photoRating, examTitle, lessonTitle, photoNotes, answerChoices)
+            }
         }
 
         dialog.show()
-
     }
 
     private fun getSelectedAnswerChoice(answerChoices: RadioGroup): String {
         val selectedId = answerChoices.checkedRadioButtonId
         return if (selectedId != -1) {
-            val selectedRadioButton = answerChoices.findViewById<RadioButton>(selectedId)
-            selectedRadioButton.text.toString()
+            answerChoices.findViewById<RadioButton>(selectedId).text.toString()
         } else {
             "No answer selected"
         }
     }
 
-
-    //spinner yükleme fonksiyonları
-
+    // Firestore'dan exam verilerini getir
     private fun fetchExam(callback: (List<String>) -> Unit) {
-        db.collection("exams")
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val titlesList = mutableListOf<String>()
-                    val documents = task.result
-                    if (documents != null && !documents.isEmpty) {
-                        for (document in documents) {
-                            // Iterate over all values in the document
-                            val data = document.data
-                            for (value in data.values) {
-                                titlesList.add(value.toString()) // Add only the value to the list
-                            }
-                        }
-                        callback(titlesList)
-                    }
-                } else {
-                    Toast.makeText(activity, "Belgeler alınırken hata oluştu: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                }
+        db.collection("exams").get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val titlesList = task.result?.mapNotNull { it.data.values.firstOrNull().toString() } ?: emptyList()
+                callback(titlesList)
+            } else {
+                Toast.makeText(activity, "Belgeler alınırken hata oluştu: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
             }
+        }
     }
 
-
+    // Firestore'dan lesson verilerini getir
     private fun fetchLesson(callback: (List<String>) -> Unit) {
-        db.collection("lessons")
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val titlesList = mutableListOf<String>()
-                    val documents = task.result
-                    if (documents != null && !documents.isEmpty) {
-                        for (document in documents) {
-                            // Iterate over all values in the document
-                            val data = document.data
-                            for (value in data.values) {
-                                titlesList.add(value.toString()) // Add only the value to the list
-                            }
-                        }
-                        callback(titlesList)
-                    }
-                } else {
-                    Toast.makeText(activity, "Belgeler alınırken hata oluştu: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                }
+        db.collection("lessons").get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val titlesList = task.result?.mapNotNull { it.data.values.firstOrNull().toString() } ?: emptyList()
+                callback(titlesList)
+            } else {
+                Toast.makeText(activity, "Belgeler alınırken hata oluştu: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
             }
+        }
     }
-
 
     private fun updateSpinner(spinner: Spinner, titlesList: List<String>) {
         val adapter = ArrayAdapter(activity, android.R.layout.simple_spinner_item, titlesList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
     }
-
-
-
-
 }

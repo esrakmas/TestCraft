@@ -2,12 +2,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/bg2">
+
+    android:background="@drawable/item_bg">
 
     <TextView
         android:id="@+id/optionTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp" />
+        android:textSize="20sp"
+        android:text="şifre değiştir"
+        android:padding="15dp"/>
 </LinearLayout>

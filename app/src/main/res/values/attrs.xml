@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Özelleştirilmiş öznitelikler -->
+    <declare-styleable name="CustomAttrs">
+        <!-- FAB (Floating Action Button) İkon Rengi -->
+        <attr name="floatingActionButtonIconTint" format="color"/>
+
+        <!-- BottomAppBar Arka Plan Rengi -->
+        <attr name="bottomAppBarBackgroundColor" format="color"/>
+
+        <!-- BottomAppBar FAB Arka Plan Rengi -->
+        <attr name="bottomAppBarFabBackgroundColor" format="color"/>
+    </declare-styleable>
+</resources>

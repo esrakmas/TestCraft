@@ -10,5 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25dp"
-        android:padding="5dp"/>
+        android:background="@drawable/item_bg"
+        android:text="matematik"
+        android:padding="8dp"/>
 </LinearLayout>

@@ -1,21 +1,39 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.TestCraft" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.TestCraft" parent="Theme.Material3.Light">
         <item name="colorPrimary">@color/mavi2</item>
         <item name="colorPrimaryVariant">@color/mavi2</item>
-        <item name="colorOnPrimary">@android:color/black</item>
+
         <item name="colorSecondary">@color/mavi2</item>
         <item name="colorSecondaryVariant">@color/mavi2</item>
-        <item name="colorOnSecondary">@android:color/black</item>
-
-        <item name="colorOnBackground">@android:color/black</item>
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/mavi4</item>
+        <!-- İkonlar için mavi renk -->
+        <item name="android:iconTint">@color/mavi2</item>
         <item name="colorSurface">@android:color/white</item>
-        <item name="colorOnSurface">@android:color/black</item>
-        <item name="colorError">@android:color/holo_red_dark</item>
         <item name="colorOnError">@android:color/white</item>
         <item name="colorControlActivated">@color/mavi2</item>
-        <item name="colorControlNormal">@color/mavi2</item>  <!-- İkon renkleri için normal durum -->
+        <item name="colorControlNormal">@color/mavi2</item> <!-- İkonların normal durumu -->
+
+        <!-- Bottom App Bar Renk Ayarları -->
+        <item name="bottomAppBarStyle">@style/Widget.MaterialComponents.BottomAppBar</item>
+
+        <!-- Floating Action Button (FAB) Renk Ayarları -->
+        <item name="floatingActionButtonStyle">@style/Widget.MaterialComponents.FloatingActionButton</item>
     </style>
 
     <style name="Theme.TestCraft" parent="Base.Theme.TestCraft" />
+
+    <!-- Bottom App Bar Stili -->
+    <style name="Widget.MaterialComponents.BottomAppBar" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="backgroundTint">@color/mavi2</item> <!-- Bottom App Bar arka planı -->
+    </style>
+
+    <!-- Floating Action Button (FAB) Stili -->
+    <style name="Widget.MaterialComponents.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/white</item> <!-- FAB arka planı -->
+        <item name="rippleColor">@color/mavi2</item> <!-- FAB tıklama efekti -->
+        <item name="android:tint">@color/mavi2</item> <!-- FAB ikonu beyaz -->
+    </style>
 </resources>

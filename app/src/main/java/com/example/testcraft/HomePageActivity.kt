@@ -1,6 +1,7 @@
 package com.example.testcraft
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -136,4 +137,34 @@ class HomePageActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        bottomdialoghelper.photoHandler.handleActivityResult(requestCode, resultCode, data)
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PhotoHandler.REQUEST_CAMERA_PERMISSION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    bottomdialoghelper.photoHandler.openCamera()
+                } else {
+                    Toast.makeText(this, "Kamera izni verilmedi", Toast.LENGTH_SHORT).show()
+                }
+            }
+            PhotoHandler.REQUEST_GALLERY_PERMISSION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    bottomdialoghelper.photoHandler.openGallery()
+                } else {
+                    Toast.makeText(this, "Galeriden fotoğraf yükleme izni verilmedi", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+
+
+
 }

@@ -2,8 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="16dp"
-    android:background="@drawable/tab_bkg">
+    android:background="@drawable/item_bg"
+    android:layout_margin="8dp">
 
     <TextView
         android:id="@+id/textViewTestTitle"
@@ -12,6 +12,7 @@
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:text="Lesson Title"
+        android:padding="8dp"
         android:textSize="20dp" />
 
 
@@ -21,6 +22,9 @@
         android:layout_height="wrap_content"
         android:isIndicator="true"
         android:numStars="5"
-        android:stepSize="1" />
+        android:stepSize="1"
+        android:scaleX="0.7"
+        android:scaleY="0.7" />
+
 
 </LinearLayout>

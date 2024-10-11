@@ -21,6 +21,8 @@ class SettingsPageFragment : Fragment() {
     private lateinit var settingsRecyclerView: RecyclerView
     private val firestore = FirebaseFirestore.getInstance()
     private var examTitles: List<String> = listOf() // Sınav başlıklarını burada tutacağız
+    private var selectedExamTitle: String? = null // Seçilen sınav başlığı
+    private var courseTitles: List<String> = listOf() // Ders başlıklarını burada tutacağız
     private lateinit var pagerAdapter: TestPageAdapter
     private lateinit var auth: FirebaseAuth
 
@@ -51,7 +53,7 @@ class SettingsPageFragment : Fragment() {
                     showExamTitleDeleteDialog()
                 }
                 "Ders Başlığı Sil" -> {
-                    showToast("Ders başlığı silme işlemi başarılı.")
+                    showCourseTitleDeleteDialog()
                 }
                 "Hesabımı Sil" -> {
                     deleteAccount()
@@ -63,6 +65,7 @@ class SettingsPageFragment : Fragment() {
         return view
     }
 
+    // Sınav başlıklarını Firestore'dan çekme
     private fun fetchExamTitles() {
         firestore.collection("questions").get().addOnSuccessListener { documents ->
             examTitles = documents.mapNotNull { it.getString("exam_title") }.distinct()
@@ -71,6 +74,7 @@ class SettingsPageFragment : Fragment() {
         }
     }
 
+    // Şifre değiştirme işlemi
     private fun showPasswordChangeDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_change_password, null)
 
@@ -104,6 +108,7 @@ class SettingsPageFragment : Fragment() {
         dialogBuilder.create().show()
     }
 
+    // Şifreyi değiştirme işlemi
     private fun changePassword(currentPassword: String, newPassword: String) {
         val user = auth.currentUser
 
@@ -125,6 +130,7 @@ class SettingsPageFragment : Fragment() {
         }
     }
 
+    // Sınav başlığı silme işlemi
     private fun showExamTitleDeleteDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Sınav Başlığı Sil")
@@ -132,7 +138,7 @@ class SettingsPageFragment : Fragment() {
         val titlesArray = examTitles.toTypedArray()
         builder.setItems(titlesArray) { _, which ->
             val selectedTitle = titlesArray[which]
-            showConfirmationDialog(selectedTitle)
+            showConfirmationDialogForExam(selectedTitle)
         }
 
         builder.setNegativeButton("İptal") { dialog, _ -> dialog.dismiss() }
@@ -140,7 +146,8 @@ class SettingsPageFragment : Fragment() {
         builder.create().show()
     }
 
-    private fun showConfirmationDialog(title: String) {
+    // Sınav başlığını silmek için onay diyalogu
+    private fun showConfirmationDialogForExam(title: String) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Onay")
         builder.setMessage("$title başlığını silmek istediğinize emin misiniz?")
@@ -151,6 +158,7 @@ class SettingsPageFragment : Fragment() {
         builder.create().show()
     }
 
+    // Sınav başlığını silme işlemi
     private fun deleteExamTitle(title: String) {
         firestore.collection("questions")
             .whereEqualTo("exam_title", title)
@@ -159,7 +167,6 @@ class SettingsPageFragment : Fragment() {
                 for (document in documents) {
                     document.reference.delete()
                 }
-                updateTabsAfterDeletion(title)
                 showToast("Sınav başlığı başarıyla silindi.")
             }
             .addOnFailureListener {
@@ -167,10 +174,92 @@ class SettingsPageFragment : Fragment() {
             }
     }
 
-    private fun updateTabsAfterDeletion(title: String) {
-        // Bu işlem, TestPagerAdapter'ı yeniden oluşturmayı ve ViewPager2'yi güncellemeyi içerebilir
+    // Ders başlıklarını silme işlemi
+    private fun showCourseTitleDeleteDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Ders Başlığı Sil")
+
+        val titlesArray = examTitles.toTypedArray()
+        builder.setItems(titlesArray) { _, which ->
+            selectedExamTitle = titlesArray[which]
+            fetchCourseTitlesForSelectedExam() // Seçilen sınav başlığına ait dersleri getir
+        }
+
+        builder.setNegativeButton("İptal") { dialog, _ -> dialog.dismiss() }
+
+        builder.create().show()
     }
 
+    // Seçilen sınav başlığına ait dersleri Firestore'dan al
+// Seçilen sınav başlığına ait dersleri Firestore'dan al
+    private fun fetchCourseTitlesForSelectedExam() {
+        selectedExamTitle?.let {
+            firestore.collection("courses")
+                .whereEqualTo("exam_title", it)  // Burada sınav başlığına göre sorgulama yapılıyor
+                .get()
+                .addOnSuccessListener { documents ->
+                    if (documents.isEmpty) {
+                        showToast("Bu sınav başlığına ait ders bulunamadı.")
+                    } else {
+                        // Ders başlıklarını mapleyip courseTitles'a atıyoruz
+                        courseTitles = documents.mapNotNull { it.getString("course_title") }.distinct()
+                        // Dersleri göstermek için ilgili fonksiyonu çağır
+                        showCourseTitleDeleteDialogWithCourses()
+                    }
+                }
+                .addOnFailureListener {
+                    showToast("Ders başlıkları alınırken hata oluştu: ${it.message}")
+                }
+        }
+    }
+
+
+    // Ders başlıklarını gösteren diyalog
+    private fun showCourseTitleDeleteDialogWithCourses() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Ders Başlıklarını Sil")
+
+        val titlesArray = courseTitles.toTypedArray()
+        builder.setItems(titlesArray) { _, which ->
+            val selectedCourse = titlesArray[which]
+            showConfirmationDialogForCourse(selectedCourse)
+        }
+
+        builder.setNegativeButton("İptal") { dialog, _ -> dialog.dismiss() }
+
+        builder.create().show()
+    }
+
+    // Ders silme işlemi için onay diyalogu
+    private fun showConfirmationDialogForCourse(course: String) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Onay")
+        builder.setMessage("$course dersini silmek istediğinize emin misiniz?")
+
+        builder.setPositiveButton("Evet") { _, _ -> deleteCourse(course) }
+        builder.setNegativeButton("Hayır") { dialog, _ -> dialog.dismiss() }
+
+        builder.create().show()
+    }
+
+    // Seçilen dersi silme işlemi
+    private fun deleteCourse(course: String) {
+        firestore.collection("courses")
+            .whereEqualTo("course_title", course)
+            .whereEqualTo("exam_title", selectedExamTitle)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    document.reference.delete()
+                }
+                showToast("$course dersi başarıyla silindi.")
+            }
+            .addOnFailureListener {
+                showToast("Ders silinirken hata oluştu.")
+            }
+    }
+
+    // Hesap silme işlemi
     private fun deleteAccount() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Hesap Silme")
@@ -181,9 +270,6 @@ class SettingsPageFragment : Fragment() {
                 ?.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         showToast("Hesap başarıyla silindi.")
-                        // Kullanıcıyı giriş ekranına yönlendirebilirsiniz
-                        // Giriş ekranına yönlendirmek için örneğin:
-                        // startActivity(Intent(requireContext(), LoginActivity::class.java))
                         val intent = Intent(requireContext(), LoginSignupPageActivity::class.java)
                         startActivity(intent)
                         requireActivity().finish()
@@ -193,12 +279,11 @@ class SettingsPageFragment : Fragment() {
                 }
         }
         builder.setNegativeButton("Hayır") { dialog, _ ->
-            dialog.dismiss() // Kullanıcı silme işleminden vazgeçerse diyaloğu kapat
+            dialog.dismiss()
         }
 
         builder.create().show()
     }
-
 
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()

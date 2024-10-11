@@ -17,11 +17,11 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="56dp"
             android:elevation="4dp"
             android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:titleTextColor="@color/mavi2"/>
+            app:titleTextColor="@color/mavi2" />
 
         <FrameLayout
             android:id="@+id/fragment_layout"
@@ -30,43 +30,55 @@
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:popupTheme="@style/ThemeOverlay.AppCompat">
 
                 <!-- BottomAppBar renk düzenlemesi -->
                 <com.google.android.material.bottomappbar.BottomAppBar
                     android:id="@+id/bottomAppBar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:layout_gravity="bottom"
-                    android:background="@color/mavi4"
                     app:fabAlignmentMode="center"
                     app:fabCradleRoundedCornerRadius="50dp">
 
                     <!-- BottomNavigationView arka plan ve menu -->
-                    <com.google.android.material.bottomnavigation.BottomNavigationView
-                        android:id="@+id/bottomNavigationView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                     android:background="@drawable/tab_bkg"
-                        app:fabAlignmentMode="center"
-                        app:fabCradleRoundedCornerRadius="80dp"
-                        app:labelVisibilityMode="auto"
-                        app:menu="@menu/bottom_menu" />
                 </com.google.android.material.bottomappbar.BottomAppBar>
 
                 <!-- FAB renk düzenlemesi -->
+
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
                     android:layout_gravity="center"
                     android:layout_margin="16dp"
+                    android:elevation="8dp"
+                    android:foregroundGravity="center"
                     android:src="@drawable/baseline_add_24"
-                    android:tint="@color/white"
-                    app:backgroundTint="@color/mavi2"
-                    app:layout_anchor="@id/bottomAppBar"
-                    app:maxImageSize="40dp" />
+                    android:pointerIcon="context_menu"
+                    app:layout_anchor="@+id/bottomNavigationView"
+                    app:layout_anchorGravity="top|center"
+                    app:maxImageSize="50dp"
+                    app:useCompatPadding="true" />
+
+
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottomNavigationView"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_gravity="bottom"
+                    android:background="@color/mavi2"
+                    app:fabAlignmentMode="center"
+                    app:fabCradleRoundedCornerRadius="80dp"
+                    app:itemIconPadding="0dp"
+                    app:itemIconSize="24dp"
+                    app:itemIconTint="@color/white"
+                    app:itemRippleColor="@color/mavi3"
+                    app:itemTextColor="@color/mavi4"
+                    app:labelVisibilityMode="auto"
+                    app:menu="@menu/bottom_menu" />
+
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </FrameLayout>
@@ -82,6 +94,7 @@
         android:background="@color/mavi4"
         app:headerLayout="@layout/nav_header"
         app:itemIconTint="@color/mavi2"
+        app:itemRippleColor="@color/mavi3"
         app:itemTextColor="@color/mavi3"
         app:menu="@menu/navigation_menu" />
 
